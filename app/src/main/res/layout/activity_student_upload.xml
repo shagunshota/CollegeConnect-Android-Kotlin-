@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Student.student_upload">
+
+    <include
+        layout="@layout/activity_student_registration"
+        android:id="@+id/studentregistration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:background="@color/lightblue"
+        app:title="@string/update_data"
+        app:navigationIcon="@drawable/back"
+        app:titleTextColor="@color/white" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

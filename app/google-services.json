@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "336661025755",
+    "firebase_url": "https://collegeconnect-ce5cb-default-rtdb.firebaseio.com",
+    "project_id": "collegeconnect-ce5cb",
+    "storage_bucket": "collegeconnect-ce5cb.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336661025755:android:11cbf76fd91ceee76fcdfe",
+        "android_client_info": {
+          "package_name": "com.example.collegeconnect"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvQj40WFcfUUEHoHkc50UHbnNypVbTSb8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

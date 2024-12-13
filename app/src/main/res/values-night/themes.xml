@@ -1,0 +1,8 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.CollegeConnect" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">#66a2ce</item>
+        <item name="colorPrimaryVariant">#CCCDD8</item>
+        <item name="android:statusBarColor">@color/lightblue</item>
+    </style>
+</resources>

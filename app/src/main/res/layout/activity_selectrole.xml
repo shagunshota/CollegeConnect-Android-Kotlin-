@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background1"
+        tools:context=".activity.selectrole">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout4"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_150sdp"
+            android:padding="@dimen/_5sdp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="3dp">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="@dimen/_45sdp"
+                android:layout_height="@dimen/_45sdp"
+                android:layout_marginTop="@dimen/_1sdp"
+                android:src="@drawable/gra"
+                app:layout_constraintBottom_toBottomOf="@+id/textView2"
+                app:layout_constraintEnd_toEndOf="@+id/textView2"
+                app:layout_constraintHorizontal_bias="0.154"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView2"
+                app:layout_constraintVertical_bias="0.3" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_44sdp"
+                android:gravity="center"
+                android:text="@string/cc"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_30ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.702"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/admin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="@dimen/_25sdp"
+            android:background="@drawable/button_hollow"
+            android:padding="@dimen/_8sdp"
+            android:text="@string/admin"
+            android:textColor="@color/lightblue"
+            android:textSize="@dimen/_15sdp"
+            app:layout_constraintBottom_toTopOf="@+id/teacher"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
+            app:layout_constraintVertical_bias="0.933" />
+
+        <Button
+            android:id="@+id/teacher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="@dimen/_25sdp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/button_hollow"
+            android:padding="@dimen/_8sdp"
+            android:text="@string/teacher"
+            android:textColor="@color/lightblue"
+            android:textSize="@dimen/_15sdp"
+            app:layout_constraintBottom_toTopOf="@+id/student"
+            app:layout_constraintEnd_toEndOf="@+id/admin"
+            app:layout_constraintStart_toStartOf="@+id/admin" />
+
+        <Button
+            android:id="@+id/student"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="@dimen/_25sdp"
+            android:layout_marginBottom="@dimen/_40sdp"
+            android:background="@drawable/button_hollow"
+            android:padding="@dimen/_8sdp"
+            android:text="@string/student"
+            android:textColor="@color/lightblue"
+            android:textSize="@dimen/_15sdp"
+            app:layout_constraintBottom_toTopOf="@+id/changelang"
+            app:layout_constraintEnd_toEndOf="@+id/teacher"
+            app:layout_constraintStart_toStartOf="@+id/teacher" />
+
+        <TextView
+            android:id="@+id/changelang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="40dp"
+            android:text="@string/change_language"
+            android:textColor="@color/lightblue"
+            android:textSize="@dimen/_13sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/student"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="@+id/student" />
+
+        <ImageView
+
+            android:id="@+id/imageView4"
+            android:layout_width="@dimen/_15ssp"
+            android:layout_height="@dimen/_15ssp"
+            android:src="@drawable/language_change"
+            app:layout_constraintBottom_toBottomOf="@+id/changelang"
+            app:layout_constraintEnd_toStartOf="@+id/changelang"
+            app:layout_constraintHorizontal_bias="0.916"
+            app:layout_constraintStart_toStartOf="@+id/student"
+            app:layout_constraintTop_toTopOf="@+id/changelang"
+            app:layout_constraintVertical_bias="1.0" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

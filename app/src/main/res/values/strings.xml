@@ -1,0 +1,260 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">CollegeConnect</string>
+    <!--    sliderfragment-->
+    <string name="analytic">Analytic</string>
+    <string name="schedule">Schedule</string>
+    <string name="organization">Organization</string>
+    <string name="college" tools:ignore="MissingTranslation">College</string>
+    <string name="connect" tools:ignore="MissingTranslation">Connect</string>
+    <string name="next">Next</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Analytic" tools:ignore="MissingTranslation">Manage Your attendance easily \n Set your minimum attendance criteria and try to stay above it</string>
+
+    <!--    language-->
+    <string name="select">Select</string>
+    <string name="your">Your</string>
+    <string name="language">Language</string>
+
+    <!--    loginpage-->
+    <string name="login_form">Login </string>
+    <string name="Student">Email</string>
+    <string name="pass">Password</string>
+    <string name="login">login</string>
+    <string name="note_for_pass"> Note : At least 8 characters with at least one uppercase letter, one lowercase letter, one special character, one digit and max 12 characters </string>
+    <string name="valid_email">Please enter a valid  email address</string>
+
+    <string name="register_here">Register Here</string>
+    <string name="check_details"> Check Login Details</string>
+    <string name="signin_google">Signin using Google</string>
+    <string name="signin_failed">Google Signin Failed: </string>
+    <string name="empty_email">Email can not be empty</string>
+    <string name="space_email">Email cannot contain space</string>
+    <string name="space_pass">Password cannot Contain space</string>
+    <string name="empty_pass">Password can not be empty</string>
+    <string name="digitorspace_notallow"> It can not contain digit</string>
+    <string name="valid_contact">Enter a valid contact number</string>
+    <string name="valid_rollno">Enter a valid rollno.</string>
+    <string name="required">This field is required</string>
+    <string name="login_sucess" tools:ignore="MissingTranslation">Login Successfully</string>
+    <string name="login_failed" tools:ignore="MissingTranslation">Invalid Email and Password</string>
+
+
+    <!--    registration form-->
+    <string name="registration_form">Registration </string>
+    <string name="name"> Name</string>
+    <string name="user_name">Username</string>
+    <string name="last_name"> Surname</string>
+    <string name="sur_name">surname</string>
+    <string name="dob"> Date Of Birth(DOB)</string>
+    <string name="email">Email</string>
+    <string name="cc.com">collegeconnect@.com</string>
+    <string name="contact">Contact Number</string>
+    <string name="num">987654321</string>
+    <string name="gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="other">Other</string>
+    <string name="semester">Semester</string>
+    <string name="sel_sem">Please select a semester.</string>
+    <string name="sel_branch">Please select a branch.</string>
+    <string name="rollno">University Rollno. </string>
+    <string name="branch">Branch</string>
+    <string name="session">Session</string>
+    <string name="sess_demo">2023–2024</string>
+    <string name="password">Password</string>
+    <string name="type_pass">type password</string>
+    <string name="conf_pass">Confirm Password</string>
+    <string name="enter_user" tools:ignore="MissingTranslation">Please enter a username</string>
+    <string name="confirm_pass" tools:ignore="MissingTranslation">Confirm Password</string>
+    <string name="pic">Student Picture</string>
+    <string name="sel_image">Select Image</string>
+
+    <string-array name="select_sem" tools:ignore="InconsistentArrays">
+        <item>1st</item>
+        <item>2nd</item>
+        <item>3rd</item>
+        <item>4th</item>
+        <item>5th</item>
+        <item>6th</item>
+        <item>7th</item>
+        <item>8th</item>
+    </string-array>
+    <string-array name="select_branch" tools:ignore="InconsistentArrays">
+
+        <item>C.S.E.</item>
+        <item>Mech. Engg.</item>
+        <item>Civil Engg.</item>
+        <item>I.T. Engg.</item>
+        <item>E.C.E.</item>
+        <item>Elec and Comm.</item>
+
+    </string-array>
+
+    <string name="cse">C.S.E.</string>
+    <string name="meh">Mech. Engg.</string>
+    <string name="civil">Civil Engg.</string>
+    <string name="it">I.T. Engg.</string>
+    <string name="ece">E.C.E.</string>
+    <string name="eandc">Elec and Comm.</string>
+
+
+    <string-array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Others</item>
+    </string-array>
+    <string name="select_option">Please select an option.</string>
+    <string name="submit">Submit</string>
+    <string name="valid_username">Enter a valid username</string>
+    <string name="valid_surname">Enter a valid Surname</string>
+    <string name="match_pass">Password do not match.</string>
+    <string name="img_required">Please select an image.</string>
+    <string name="valid_pass">Please enter a valid password.</string>
+    <string name="register_sucess">You are registered successfully.</string>
+    <string name="empty_name">Name cannot be empty.</string>
+    <string name="empty_number">Number cannot be empty.</string>
+    <string name="empty_rollno">Rollno cannot be empty.</string>
+    <string name="empty_dob">DOB cannot be empty.</string>
+    <string name="empty_gender">Gender cannot be empty.</string>
+    <string name="empty_session">Session cannot be empty.</string>
+    <string name="empty_branch">Branch cannot be empty.</string>
+    <string name="empty_semester">Semester cannot be empty.</string>
+    <string name="space_name">Name cannot contain space.</string>
+    <string name="space_number"> Number cannot contain space.</string>
+    <string name="space_roono">Rollno cannot contain space.</string>
+    <string name="space_session">Session cannot contain space.</string>
+    <string name="valid_name">Name cannot contain Integers.</string>
+    <string name="space_experiance">Experience cannot contain space.</string>
+    <string name="space_subject">Subject cannot contain space.</string>
+    <string name="empty_subject">Subject cannot be empty</string>
+    <string name="empty_experience">Experience cannot be empty</string>
+    <string name="request_send">Your request is send for registration</string>
+    <string name="superad_name" tools:ignore="MissingTranslation">superadmin@gmail.com</string>
+    <string name="superad_Pass" tools:ignore="MissingTranslation">Superad@1234</string>
+
+
+    <!--    bottom nav bar-->
+    <string name="home">Home</string>
+    <string name="notes">Notes</string>
+    <string name="marks">Marks</string>
+    <string name="attendance">Attendance</string>
+    <string name="cc" tools:ignore="MissingTranslation">CollegeConnect</string>
+
+
+    <!--    notes fragment-->
+    <string name="course">Course</string>
+    <string name="viewnote">View Notes</string>
+    <string name="uploadnote"> Upload Notes</string>
+
+
+    <string-array name="course">
+        <item> B.Tech</item>
+        <item>B.C.A.</item>
+        <item>M.Tech</item>
+        <item>M.C.A.</item>
+    </string-array>
+
+
+    <string name="logout">Logout</string>
+    <string name="settings">Settings</string>
+    <string name="subjectname">Subject Name</string>
+    <string name="change_language">Change Language</string>
+    <string name="english">English</string>
+    <string name="hindi">हिंदी</string>
+    <string name="change">Change</string>
+    <string name="number">Number</string>
+
+
+    <string name="admin">Admin</string>
+    <string name="student">Student</string>
+    <string name="teacher"> Teacher</string>
+    <string name="subject">Subject</string>
+    <string name="experience">Experience</string>
+
+    <string name="maths">Mathematics</string>
+    <string name="physics">Physics</string>
+    <string name="chemistry">Chemistary</string>
+    <string name="engdrawing">Engineering Drawing</string>
+    <string name="select_branchfirst">Please select a branch first.</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="wrong_details">Email and Password does notexists.</string>
+    <string name="select_role"> Select a role first</string>
+    <string name="students">Students</string>
+    <string name="teachers">Teachers</string>
+    <string name="admins">Admins</string>
+    <string name="profile">Profile</string>
+    <string name="update_data">Update Data</string>
+    <string name="update">Update</string>
+    <string name="data_updated">Data updted successfully</string>
+    <string name="fail_update">Failed to update data</string>
+    <string name="user_with_email"> User with email not found </string>
+    <string name="registration_sucess">Registration Successful! </string>
+    <string name="error_saving_user_data"> Error saving user data</string>
+    <string name="admin_id">Admin Id  </string>
+    <string name="adminid"> Admin Id :</string>
+    <string name="see_pass">See password </string>
+    <string name="teacher_id">Teacher Id</string>
+    <string name="teacherid"> Teacher Id :</string>
+    <string name="add_noti">Add Notification</string>
+    <string name="latest_noti">Latest Notification</string>
+    <string name="latest_event">Latest Event</string>
+    <string name="title"> Title</string>
+    <string name="description"> Description</string>
+    <string name="add_event"> Add Event</string>
+    <string name="time"> Timing</string>
+    <string name="venue">venue</string>
+    <string name="sucess_noti"> Notification added successfully</string>
+    <string name="sucess_event">Event added successfully</string>
+    <string name="fail_noti"> Notification not added</string>
+    <string name="fail_event"> Event not added</string>
+    <string name="unit">Unit</string>
+    <string name="topic"> Topic</string>
+    <string name="upload">Upload</string>
+    <string name="select_pdf">Attach PDF</string>
+
+    <string-array name="unit" translatable="false">
+        <item> 1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+
+    </string-array>
+    <string name="fee">Fee</string>
+    <string name="total_lecture">Total Lecture</string>
+    <string name="attend_lecture"> Attended Lecture</string>
+    <string name="add_fee">Add Fee</string>
+    <string name="amount">Amount</string>
+    <string name="add"> Add</string>
+    <string name="enter_data"> Please enter a data.</string>
+    <string name="notification">Notification</string>
+    <string name="event">Event</string>
+    <string name="update_profile">Update Profile</string>
+    <string name="admin_cannot_register">Admin can not register.</string>
+    <string name="fee_amount"> Fee Amount</string>
+    <string name="fee_added"> Fee added successfully</string>
+    <string name="totalstudent">Total Student</string>
+    <string name="totalevent">Total Event</string>
+    <string name="totalnoti"> Total Notification</string>
+    <string name="student_line">Teacher can easily register students!</string>
+    <string name="attendance_line"> Effortlessly uploads student attendance. </string>
+    <string name="marks_line">Quickly uploads student marks with ease!  </string>
+    <string name="totalstudents">  Total number of registered students! </string>
+    <string name="totalevents"> Easily view all upcoming events!</string>
+    <string name="totalnotificationa">Effortlessly view the event notifications </string>
+    <string name="add_marks">Add Marks</string>
+    <string name="add_attendence">Add Attendence</string>
+    <string name="total_marks">Total Marks</string>
+    <string name="obtain_Marks">Obtained Marks</string>
+    <string name="check_fee"> Check Fee</string>
+    <string name="a_l">A.L.</string>
+    <string name="t_l">T.L.</string>
+    <string name="marks_obtained">Marks Obtained</string>
+    <string name="notes_upload_fail">Notes are not uploded.</string>
+    <string name="no_internet">No Internet</string>
+    <string name="attach_Pdf">Please upload a pdf</string>
+    <string name="empty_unit"> Unit can not be empty.</string>
+    <string name="pdf">pdf</string>
+
+
+</resources>
