@@ -1,5 +1,6 @@
 package com.example.collegeconnect.Teacher.fragment
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -48,9 +50,13 @@ class teacher_student : Fragment() {
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        userAdapter = Student_Adapter(studentList){ uniqueid ->
-            deletestudent(uniqueid)
-        }
+
+        userAdapter = Student_Adapter(
+            studentList,
+            { uniqueId -> deleteStudent(uniqueId) },
+            { student -> showUpdateDialog(student) }
+        )
+        recyclerView.adapter = userAdapter
         recyclerView.adapter = userAdapter
 
         fetchUserData()
@@ -62,18 +68,65 @@ class teacher_student : Fragment() {
         return binding.root
     }
 
-    private fun deletestudent(uniqueid: String) {
+    private fun deleteStudent(uniqueId: String) {
         val database = FirebaseDatabase.getInstance()
-        val dataref = database.getReference("Student")
+        val dataRef = database.getReference("Student").child(uniqueId)
 
-        dataref.removeValue().addOnSuccessListener {
-            Toast.makeText(requireContext(),"Student deleted successfully ",Toast.LENGTH_SHORT).show()
-        }
-            .addOnFailureListener{ e->
-                Toast.makeText(requireContext(),"Error : ${e.message}",Toast.LENGTH_SHORT).show()
+        dataRef.removeValue()
+            .addOnSuccessListener {
+                Toast.makeText(requireContext(), "Student deleted successfully", Toast.LENGTH_SHORT).show()
             }
-
+            .addOnFailureListener { e ->
+                Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
     }
+
+
+    private fun updateStudent(student: Student, updatedValues: Map<String, Any>) {
+        val database = FirebaseDatabase.getInstance()
+        val dataRef = database.getReference("Student").child(student.uniqueId)
+
+        dataRef.updateChildren(updatedValues)
+            .addOnSuccessListener {
+                Toast.makeText(requireContext(), "Student updated successfully", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+
+    private fun showUpdateDialog(student: Student) {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.studentdata_update, null)
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .setTitle("Update Student")
+            .setPositiveButton("Update") { _, _ ->
+                val updatedName = dialogView.findViewById<EditText>(R.id.etStudentName).text.toString()
+                val updatedEmail = dialogView.findViewById<EditText>(R.id.etStudentEmail).text.toString()
+                val updatedNumber = dialogView.findViewById<EditText>(R.id.etStudentNumber).text.toString()
+
+
+                val updatedValues = mapOf(
+                    "username" to updatedName,
+                    "email" to updatedEmail,
+                    "number" to updatedNumber
+                )
+
+
+                updateStudent(student, updatedValues)
+            }
+            .setNegativeButton("Cancel", null)
+            .create()
+
+        dialog.show()
+
+
+        dialogView.findViewById<EditText>(R.id.etStudentName).setText(student.username)
+        dialogView.findViewById<EditText>(R.id.etStudentEmail).setText(student.email)
+        dialogView.findViewById<EditText>(R.id.etStudentNumber).setText(student.number)
+    }
+
 
     private fun showDropdownMenu(anchor: android.view.View) {
 

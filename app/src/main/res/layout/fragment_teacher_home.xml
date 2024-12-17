@@ -12,26 +12,7 @@
         android:layout_height="match_parent"
         tools:context=".Teacher.fragment.teacher_home">
 
-        <!-- Toolbar -->
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar9"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_40sdp"
-            android:background="@color/lightblue"
-            app:title="@string/cc"
-            app:titleTextColor="@color/white"
-            app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/toolbar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:padding="@dimen/_8ssp"
-                android:src="@drawable/menu" />
-        </androidx.appcompat.widget.Toolbar>
-
-        <!-- Welcome Text -->
         <TextView
             android:id="@+id/welcomeTextView"
             android:layout_width="match_parent"
@@ -41,11 +22,11 @@
             android:text="User (Teacher)"
             android:textSize="@dimen/_35ssp"
             android:textStyle="bold"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar9"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="MissingConstraints" />
 
-        <!-- Teacher Details -->
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
@@ -230,7 +211,7 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="1.0"
-                            app:layout_constraintStart_toEndOf="@+id/evetext" />
+                            app:layout_constraintStart_toEndOf="@+id/markstext" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -346,7 +327,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_25sdp"
-                    android:layout_marginBottom="@dimen/_60sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
                     app:cardCornerRadius="@dimen/_7sdp"
                     app:cardElevation="@dimen/_5sdp">
 

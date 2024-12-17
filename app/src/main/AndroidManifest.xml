@@ -65,7 +65,6 @@
             android:name=".Student.student_profile"
             android:exported="false" />
 
-
         <activity
             android:name=".Student.Student_Registration"
             android:exported="false"

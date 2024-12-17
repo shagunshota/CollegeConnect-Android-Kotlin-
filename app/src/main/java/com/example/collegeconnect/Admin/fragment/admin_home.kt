@@ -32,35 +32,36 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import java.util.UUID
-
 class admin_home : Fragment() {
     private lateinit var binding : FragmentAdminHomeBinding
-
-//    private var _binding: FragmentAdminHomeBinding? = null
-//    private val binding get() = _binding!!
     private lateinit var auth: FirebaseAuth
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View?{
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_admin_home,container,false)
 
         auth = FirebaseAuth.getInstance()
-
-        setupToolbarMenu()
         fetchAdminDetails()
         countStudent()
         countTeacher()
         checkNetworkStatus()
-        binding.addStudent.setOnClickListener{
-            val intent= Intent(requireContext(), Student_Registration::class.java)
-            startActivity(intent)
+        binding.addTeacher.setOnClickListener {
+           openFragment(add_teacher())
+               val fragmentManager = requireActivity().supportFragmentManager
+                   fragmentManager.beginTransaction()
+               .replace(R.id.fragment_container, add_teacher.newInstance())
+               .commit()
+
         }
-        binding.addTeacher.setOnClickListener{
-            val intent = Intent(requireContext(), Teacher_registration::class.java)
-            startActivity(intent)
+        binding.addStudent.setOnClickListener {
+            openFragment(add_Student())
+            val fragmentManager = requireActivity().supportFragmentManager
+            fragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, add_Student.newInstance())
+                .commit()
         }
+
         binding.addNoti.setOnClickListener {
             notificationdialog()
 
@@ -69,8 +70,17 @@ class admin_home : Fragment() {
             eventdialog()
         }
 
+
+
         return binding.root
     }
+    private fun openFragment(fragment: Fragment) {
+        val fragmentTransaction = childFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.main, fragment)
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
+    }
+
     private fun checkNetworkStatus(): Boolean {
         if (!isNetworkConnected(requireContext())) {
             Snackbar.make(requireView(), "No internet connection available.", Snackbar.LENGTH_LONG).show()
@@ -86,51 +96,11 @@ class admin_home : Fragment() {
         return networkInfo != null && networkInfo.isConnected
     }
 
-//
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        _binding = null
-//    }
-//
     data class Admins(
         val username: String = "",
         val email: String = "",
-        val uniqueId: String = ""
-    )
-//
-    private fun setupToolbarMenu() {
-        binding.toolbaradmin.setOnClickListener { anchor ->
-            if (isAdded) {
-                showDropdownMenu(anchor)
-            }
-        }
-    }
-//
-    private fun showDropdownMenu(anchor: View) {
-        if (!isAdded) return
-        val popupMenu = PopupMenu(requireContext(), anchor)
-        popupMenu.menuInflater.inflate(R.menu.admin_option, popupMenu.menu)
+        val uniqueId: String = "")
 
-        popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
-            when (menuItem.itemId) {
-                R.id.profile -> {
-                    startActivity(Intent(requireContext(), admin_profile::class.java))
-                    true
-                }
-                R.id.settings -> {
-                    startActivity(Intent(requireContext(), admin_settings::class.java))
-                    true
-                }
-                R.id.add_fee -> {
-                    startActivity(Intent(requireContext(),add_fee::class.java))
-                    true
-                }
-                else -> false
-            }
-        }
-
-        popupMenu.show()
-    }
     private fun notificationdialog() {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.notification_input, null)
         val title = dialogView.findViewById<EditText>(R.id.noti_title)
@@ -325,3 +295,4 @@ class admin_home : Fragment() {
         }
     }
 }
+

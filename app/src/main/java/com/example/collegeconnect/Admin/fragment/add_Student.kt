@@ -1,4 +1,4 @@
-package com.example.collegeconnect.Student
+package com.example.collegeconnect.Admin.fragment
 
 import android.app.DatePickerDialog
 import android.content.Intent
@@ -12,42 +12,45 @@ import android.text.InputFilter
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Patterns
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
-import android.view.WindowManager
+import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.appcompat.app.AppCompatActivity.RESULT_OK
 import androidx.databinding.DataBindingUtil
+import com.example.collegeconnect.Admin.Admin_dashboard
 import com.example.collegeconnect.Login.Login_Activity
 import com.example.collegeconnect.Models.Student
 import com.example.collegeconnect.R
-import com.example.collegeconnect.databinding.ActivityStudentRegistrationBinding
+import com.example.collegeconnect.databinding.FragmentAddStudentBinding
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import java.util.Calendar
 import kotlin.random.Random
 
-class Student_Registration : AppCompatActivity() {
-    private lateinit var binding: ActivityStudentRegistrationBinding
+
+class add_Student : Fragment() {
+    private lateinit var binding : FragmentAddStudentBinding
     private lateinit var auth : FirebaseAuth
     private var isImageSelected = false
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_student_registration)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_student_registration)
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+     binding = DataBindingUtil.inflate(inflater,R.layout.fragment_add__student,container,false)
+
         auth = FirebaseAuth.getInstance()
 
         val etdb: TextInputEditText = binding.etdb
         etdb.setOnClickListener { showDatePickerDialog() }
         setupUI()
+        setupToolbar()
         setupNameValidation()
         setupImageSelector()
         setupSubmitButton()
@@ -62,21 +65,22 @@ class Student_Registration : AppCompatActivity() {
             genderDropdown(it)
         }
 
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        return binding.root
+    }
+    private fun setupToolbar() {
+        (requireActivity() as? AppCompatActivity)?.supportActionBar?.apply {
+            title = "Add Student"
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.back)
         }
     }
-
     private fun showDatePickerDialog() {
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        val datePickerDialog = DatePickerDialog(this,
+        val datePickerDialog = DatePickerDialog(requireContext(),
             { _, selectedYear, selectedMonth, selectedDay ->
                 val date = "$selectedDay/${selectedMonth + 1}/$selectedYear"
                 binding.etdb.setText(date)
@@ -87,7 +91,7 @@ class Student_Registration : AppCompatActivity() {
     }
 
     private fun semDropdown(view: View) {
-        val popupMenu = PopupMenu(this, view)
+        val popupMenu = PopupMenu(requireContext(), view)
         val options = resources.getStringArray(R.array.select_sem)
 
         options.forEach { option ->
@@ -103,7 +107,7 @@ class Student_Registration : AppCompatActivity() {
     }
 
     private fun genderDropdown(view: View) {
-        val popupMenu = PopupMenu(this, view)
+        val popupMenu = PopupMenu(requireContext(), view)
         val options = resources.getStringArray(R.array.gender)
 
         options.forEach { option ->
@@ -120,7 +124,7 @@ class Student_Registration : AppCompatActivity() {
     }
 
     private fun branchDropdown(view: View) {
-        val popupMenu = PopupMenu(this, view)
+        val popupMenu = PopupMenu(requireContext(), view)
         val options = resources.getStringArray(R.array.select_branch)
 
         options.forEach { option ->
@@ -248,9 +252,6 @@ class Student_Registration : AppCompatActivity() {
         val nameEditText: TextInputEditText = binding.etname
 
         nameEditText.addTextChangedListener(object : TextWatcher {
-
-            private val handler = Handler(Looper.getMainLooper())
-            private var errorRunnable: Runnable? = null
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -301,7 +302,7 @@ class Student_Registration : AppCompatActivity() {
     }
     private fun getFileName(uri: Uri?): String {
         var fileName = "Unknown"
-        val cursor = uri?.let { contentResolver.query(it, null, null, null, null) }
+        val cursor = uri?.let { requireContext().contentResolver.query(it, null, null, null, null) }
         cursor?.use {
             if (it.moveToFirst()) {
                 val nameIndex = it.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME)
@@ -310,6 +311,7 @@ class Student_Registration : AppCompatActivity() {
         }
         return fileName
     }
+
     private fun setupSubmitButton() {
 
         binding.submitbtn.setOnClickListener {
@@ -337,31 +339,31 @@ class Student_Registration : AppCompatActivity() {
 
     private fun registerStudent(username: String, email: String, number: String, rollno: String, dob: String, gender: String, session: String, semester: String, branch: String, password: String, image: String) {
         auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
+            .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
                     val uniqueId = generateUniqueId()
                     val database =
                         FirebaseDatabase.getInstance().getReference("Student").child(uniqueId)
 
 
-                   val user = Student(username,email,number,rollno,dob, gender, session,semester,branch,password,image,uniqueId)
+                    val user = Student(username,email,number,rollno,dob, gender, session,semester,branch,password,image,uniqueId)
                     database.setValue(user).addOnCompleteListener { dbTask ->
                         if (dbTask.isSuccessful) {
-                            Toast.makeText(this, getString(R.string.registration_sucess), Toast.LENGTH_SHORT)
+                            Toast.makeText(requireContext(), getString(R.string.registration_sucess), Toast.LENGTH_SHORT)
                                 .show()
-                            val intent = Intent(this, Login_Activity::class.java)
+                            val intent = Intent(requireContext(),Admin_dashboard::class.java)
 
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                             startActivity(intent)
-                            finish()
+
                         } else {
-                            Toast.makeText(this, getString(R.string.error_saving_user_data), Toast.LENGTH_SHORT)
+                            Toast.makeText(requireContext(), getString(R.string.error_saving_user_data), Toast.LENGTH_SHORT)
                                 .show()
                         }
                     }
                 } else {
                     Toast.makeText(
-                        this,
+                        requireContext(),
                         "Registration failed: ${task.exception?.message}",
                         Toast.LENGTH_SHORT
                     ).show()
@@ -369,7 +371,7 @@ class Student_Registration : AppCompatActivity() {
             }
     }
 
-   
+
 
 
     private fun areFieldsValid(): Boolean {
@@ -514,18 +516,18 @@ class Student_Registration : AppCompatActivity() {
 
 //        for image
         if (!isImageSelected) {
-            binding.errorTextView.text = getString(R.string.img_required) // Use a resource string for the error message
-            binding.errorTextView.visibility = View.VISIBLE // Show error message
+            binding.errorTextView.text = getString(R.string.img_required)
+            binding.errorTextView.visibility = View.VISIBLE
             isValid = false
         } else {
             binding.errorTextView.visibility = View.GONE // Hide error message if valid
-            // Proceed with further actions
+
         }
         return isValid
     }
 
     private fun isValidname(etname: String): Boolean {
-        // Regex to ensure at least one lowercase and one uppercase letter, and no digits
+
         val nameRegex = "^[a-zA-Z]+$"
         return etname.matches(nameRegex.toRegex())
     }
@@ -539,7 +541,14 @@ class Student_Registration : AppCompatActivity() {
 
 
 
+    companion object {
 
+        @JvmStatic
+        fun newInstance() =
+            add_Student().apply {
+                arguments = Bundle().apply {
+
+                }
+            }
+    }
 }
-
-

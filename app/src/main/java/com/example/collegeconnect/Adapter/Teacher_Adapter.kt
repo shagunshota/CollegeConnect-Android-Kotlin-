@@ -11,12 +11,13 @@ import com.example.collegeconnect.R
 
 class Teacher_Adapter(
     private val teacherList: MutableList<Teacher>,
-    private val deleteteacher: (String, String, String) -> Unit
+    private val deleteteacher: (String) -> Unit,
+    private val updateteacher : (Teacher)-> Unit
 ) : RecyclerView.Adapter<Teacher_Adapter.UserViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_user, parent, false)
-        return UserViewHolder(view, deleteteacher)
+        return UserViewHolder(view, deleteteacher,updateteacher)
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
@@ -26,18 +27,28 @@ class Teacher_Adapter(
 
     override fun getItemCount(): Int = teacherList.size
 
-    class UserViewHolder(itemView: View, private val deleteteacher: (String,String, String) -> Unit) : RecyclerView.ViewHolder(itemView) {
+    class UserViewHolder(
+        itemView: View,
+        private val deleteTeacher: (String) -> Unit,
+        private val updateTeacher: (Teacher) -> Unit
+    ) : RecyclerView.ViewHolder(itemView) {
+
         private val usernameTextView: TextView = itemView.findViewById(R.id.usernameTextView)
         private val emailTextView: TextView = itemView.findViewById(R.id.emailTextView)
         private val numberTextView: TextView = itemView.findViewById(R.id.numberTextView)
         private val deleteTeacherImageView: ImageView = itemView.findViewById(R.id.deleteuser)
+        private val updateTeacherImageView: ImageView = itemView.findViewById(R.id.edituser)
 
         fun bind(teacher: Teacher) {
             usernameTextView.text = teacher.username
             emailTextView.text = teacher.email
             numberTextView.text = teacher.number
+
             deleteTeacherImageView.setOnClickListener {
-                deleteteacher(teacher.uniqueId,teacher.email,teacher.password)
+                deleteTeacher(teacher.uniqueId)
+            }
+            updateTeacherImageView.setOnClickListener {
+                updateTeacher(teacher)
             }
         }
     }

@@ -14,6 +14,7 @@ import android.widget.EditText
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import com.example.collegeconnect.Admin.fragment.add_Student
 import com.example.collegeconnect.Login.Login_Activity
 import com.example.collegeconnect.R
 import com.example.collegeconnect.Student.Student_Registration
@@ -55,13 +56,14 @@ class teacher_home : Fragment() {
         countNotifications()
         countEvent()
 
-        binding.toolbar.setOnClickListener() {
-            showDropdownMenu(it)
-        }
+
+
         binding.stuadd.setOnClickListener {
-            val intent = Intent(requireContext(),Student_Registration::class.java)
-            startActivity(intent)
-            true
+            openFragment(add_tstudent())
+            val fragmentManager = requireActivity().supportFragmentManager
+            fragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, add_Student.newInstance())
+                .commit()
         }
         binding.attenadd.setOnClickListener {
             attendancedialog()
@@ -103,6 +105,12 @@ class teacher_home : Fragment() {
 
         return binding.root
 
+    }
+    private fun openFragment(fragment: Fragment) {
+        val fragmentTransaction = childFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.main, fragment)
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
     }
 
 

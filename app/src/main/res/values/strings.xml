@@ -255,6 +255,8 @@
     <string name="attach_Pdf">Please upload a pdf</string>
     <string name="empty_unit"> Unit can not be empty.</string>
     <string name="pdf">pdf</string>
+    <string name="add_teacher">Add Teacher</string>
+    <string name="add_student">Add Student</string>
 
 
 </resources>

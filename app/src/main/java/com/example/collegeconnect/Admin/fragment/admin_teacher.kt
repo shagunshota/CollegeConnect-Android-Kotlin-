@@ -1,23 +1,30 @@
 package com.example.collegeconnect.Admin.fragment
 
+import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.text.TextUtils
+import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.collegeconnect.Adapter.Student_Adapter
 import com.example.collegeconnect.Adapter.Teacher_Adapter
 import com.example.collegeconnect.Admin.add_fee
 import com.example.collegeconnect.Admin.admin_profile
 import com.example.collegeconnect.Admin.admin_settings
+import com.example.collegeconnect.Models.Student
 import com.example.collegeconnect.Models.Teacher
 import com.example.collegeconnect.R
 import com.example.collegeconnect.databinding.FragmentAdminTeacherBinding
@@ -31,7 +38,7 @@ import com.google.firebase.database.ValueEventListener
 
 
 class admin_teacher : Fragment() {
-   private var _binding : FragmentAdminTeacherBinding?= null
+    private var _binding: FragmentAdminTeacherBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
     private lateinit var userAdapter: Teacher_Adapter
@@ -42,20 +49,19 @@ class admin_teacher : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_admin_teacher, container, false)
+        _binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_admin_teacher, container, false)
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         checkNetworkStatus()
 
-        binding.menu.setOnClickListener {anchor ->
-            if (isAdded) {
-                showDropdownMenu(anchor)
-            }
-        }
 
-        userAdapter = Teacher_Adapter(teacherList) { uniqueId, email, password ->
-            deleteItem(uniqueId, email, password)
-        }
+
+        userAdapter = Teacher_Adapter(
+            teacherList,
+            { uniqueId -> deleteteacher(uniqueId) },
+            { teacher -> showUpdateDialog(teacher) }
+        )
         recyclerView.adapter = userAdapter
 
         fetchTeacherData()
@@ -63,24 +69,28 @@ class admin_teacher : Fragment() {
 
     }
 
-
-    private fun deleteItem(unique: String , email : String , password: String) {
-
-
+    private fun deleteteacher(uniqueId: String) {
         val database = FirebaseDatabase.getInstance()
-        val dataRef = database.getReference("Teacher").child(unique)
+        val dataRef = database.getReference("Teacher").child(uniqueId)
 
         dataRef.removeValue()
             .addOnSuccessListener {
-               val Auth = FirebaseAuth.getInstance()
-                val teacher = Auth.currentUser
-                if(teacher!=null){
-                    val credential = EmailAuthProvider.getCredential(email , password)
-                        teacher.reauthenticate(credential)
-                            .addOnSuccessListener {
-                                Toast.makeText(requireContext(),"teacher deleted successfully",Toast.LENGTH_SHORT).show()
-                            }
-                }
+                Toast.makeText(requireContext(), "Student deleted successfully", Toast.LENGTH_SHORT)
+                    .show()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun updateteacher(teacher: Teacher, updatedValues: Map<String, Any>) {
+        val database = FirebaseDatabase.getInstance()
+        val dataRef = database.getReference("Teacher").child(teacher.uniqueId)
+
+        dataRef.updateChildren(updatedValues)
+            .addOnSuccessListener {
+                Toast.makeText(requireContext(), "Student updated successfully", Toast.LENGTH_SHORT)
+                    .show()
             }
             .addOnFailureListener { e ->
                 Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
@@ -88,32 +98,114 @@ class admin_teacher : Fragment() {
     }
 
 
+    @SuppressLint("MissingInflatedId")
+    private fun showUpdateDialog(teacher: Teacher) {
+        val dialogView =
+            LayoutInflater.from(requireContext()).inflate(R.layout.update_teacherdata, null)
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .setTitle("Update Student")
+            .setPositiveButton("Update") { _, _ ->
+                val updatedName = dialogView.findViewById<EditText>(R.id.ettname).text.toString()
+                val updatedEmail = dialogView.findViewById<EditText>(R.id.ettemail).text.toString()
+                val updatedNumber = dialogView.findViewById<EditText>(R.id.ettnumber).text.toString()
 
-    private fun showDropdownMenu(anchor: View) {
-        if (!isAdded) return
-        val popupMenu = PopupMenu(requireContext(), anchor)
-        popupMenu.menuInflater.inflate(R.menu.admin_option, popupMenu.menu)
 
-        popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
-            when (menuItem.itemId) {
-                R.id.profile -> {
-                    startActivity(Intent(requireContext(), admin_profile::class.java))
-                    true
-                }
-                R.id.settings -> {
-                    startActivity(Intent(requireContext(), admin_settings::class.java))
-                    true
-                }
-                R.id.add_fee -> {
-                    startActivity(Intent(requireContext(), add_fee::class.java))
-                    true
-                }
-                else -> false
-            }
-        }
+                val updatedValues = mapOf(
+                    "username" to updatedName,
+                    "email" to updatedEmail,
+                    "number" to updatedNumber
+                )
 
-        popupMenu.show()
+//                if (areFieldsValid()) {
+                updateteacher(teacher, updatedValues)}
+//            }
+            .setNegativeButton("Cancel", null)
+            .create()
+
+        dialog.show()
+
+
+        dialogView.findViewById<EditText>(R.id.ettname).setText(teacher.username)
+        dialogView.findViewById<EditText>(R.id.ettemail).setText(teacher.email)
+        dialogView.findViewById<EditText>(R.id.ettnumber).setText(teacher.number)
     }
+
+//    private fun areFieldsValid(): Boolean {
+//        var isValid = true
+//        val updatedName =
+//            dialogView.findViewById<EditText>(R.id.ettname).text.toString()
+//        val updatedEmail =
+//            dialogView.findViewById<EditText>(R.id.ettemail).text.toString()
+//        val updatedNumber =
+//            dialogView.findViewById<EditText>(R.id.ettnumber).text.toString()
+//
+//
+//        val name = binding.et.text.toString().trim()
+//        if (TextUtils.isEmpty(name)) {
+//           updatedName.error = getString(R.string.empty_name)
+//
+//        } else if (!isValidname(name)) {
+//            binding.tname.error = getString(R.string.valid_name)
+//            isValid = false
+//        } else {
+//            binding.tname.error = null // Clear error if valid
+//        }
+
+//
+////        for email
+//        val email = binding.ettemail.text.toString()
+//        if (TextUtils.isEmpty(
+//                binding.ettemail.text.toString().trim()) ) {
+//            binding.temail.error = getString(R.string.empty_email)
+//
+//        }
+//        else if(!Patterns.EMAIL_ADDRESS.matcher(binding.ettemail.text.toString().trim()).matches()){
+//            binding.temail.error = valid_email
+//
+//            isValid = false
+//        }
+//        else{
+//            binding.temail.error=null
+//        }
+//
+//
+////        for contact
+//        if (TextUtils.isEmpty(binding.ettnumber.text.toString().trim())) {
+//            binding.tnumber.error = getString(R.string.empty_number)
+//            isValid = false
+//        }
+//        else{
+//            binding.tnumber.error=null
+//        }
+//
+//
+////        for branch
+//
+//        if(TextUtils.isEmpty(binding.etBranch.text.toString().trim())){
+//            binding.tbranch.error = getString(R.string.empty_branch)
+//            isValid= false
+//        }
+//
+//
+//
+//        //        for subject
+//        if (binding.ettSubject.text.isNullOrEmpty()) {
+//            binding.tsubject.error = getString(R.string.empty_subject)
+//            isValid = false
+//        }
+//        else{
+//            binding.tsubject.error= null
+//
+//        }
+
+
+
+
+
+//    }
+
+
 
 
     private fun checkNetworkStatus(): Boolean {

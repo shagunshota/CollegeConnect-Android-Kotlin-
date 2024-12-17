@@ -1,42 +1,38 @@
-package com.example.collegeconnect.Teacher
+package com.example.collegeconnect.Admin.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Base64
 import android.util.Patterns
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
-import android.view.WindowManager
+import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
-
+import com.example.collegeconnect.Admin.Admin_dashboard
 import com.example.collegeconnect.Login.Login_Activity
 import com.example.collegeconnect.Models.Teacher
-
 import com.example.collegeconnect.R
-import com.example.collegeconnect.databinding.ActivityTeacherRegistrationBinding
+import com.example.collegeconnect.databinding.FragmentAddTeacherBinding
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import javax.crypto.Cipher
 import javax.crypto.SecretKey
 import javax.crypto.spec.SecretKeySpec
 import kotlin.random.Random
 
-class Teacher_registration : AppCompatActivity() {
-    private lateinit var auth: FirebaseAuth
-    private lateinit var binding : ActivityTeacherRegistrationBinding
+class add_teacher : Fragment() {
+    val auth= FirebaseAuth.getInstance()
+    private lateinit var binding: FragmentAddTeacherBinding
     private val branchSubjectsMap = mapOf(
         "C.S.E.Engg." to listOf("Mathematics", "Physics", "Chemistry", "Engineering Drawing","Java","C.O.A.","Python","Software Engg.","Graphic Design","A.D.A."),
         "I.T.Engg." to listOf("Mathematics", "Physics", "Chemistry", "Engineering Drawing","Java","Python","Android","Graphic Design","C","C++"),
@@ -46,13 +42,16 @@ class Teacher_registration : AppCompatActivity() {
         "Civil Engg." to listOf("Mathematics", "Physics", "Chemistry", "Engineering Drawing","Engineering Geology","Structural Analysis","Mechanics Of Structure","A.C.E.P."),
 
         )
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_teacher_registration)
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_teacher_registration)
-        auth = FirebaseAuth.getInstance()
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_teacher, container, false)
+
+        setupToolbar()
+//        setupBackPressedCallback()
         setupUI()
         setupNameValidation()
         setupSubmitButton()
@@ -75,19 +74,36 @@ class Teacher_registration : AppCompatActivity() {
             genderDropdown(it)
         }
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+
+
+        return binding.root
+    }
+
+    private fun setupToolbar() {
+        (requireActivity() as? AppCompatActivity)?.supportActionBar?.apply {
+            title = "Add Teacher"
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.back)
         }
     }
 
-
+//    private fun setupBackPressedCallback() {
+//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+//            override fun handleOnBackPressed() {
+//                val fragmentManager = requireActivity().supportFragmentManager
+//
+//                    fragmentManager.beginTransaction()
+//                        .replace(R.id.add_teacher, admin_home.newInstance())
+//                        .commit()
+//
+//            }
+//        })
+//    }
     private fun showBranchDropdown(view: View) {
         val branches = branchSubjectsMap.keys.toList()
 
 
-        val popupMenu = androidx.appcompat.widget.PopupMenu(this, view)
+        val popupMenu = androidx.appcompat.widget.PopupMenu(requireContext(), view)
         val menu = popupMenu.menu
         branches.forEachIndexed { index, branch ->
             menu.add(0, index, index, branch)
@@ -107,7 +123,7 @@ class Teacher_registration : AppCompatActivity() {
     private fun showSubjectDropdown(view: View, selectedBranch: String) {
         val subjects = branchSubjectsMap[selectedBranch] ?: emptyList()
 
-        val popupMenu = androidx.appcompat.widget.PopupMenu(this, view)
+        val popupMenu = androidx.appcompat.widget.PopupMenu(requireContext(), view)
         val menu = popupMenu.menu
         subjects.forEachIndexed { index, subject ->
             menu.add(0, index, index, subject)
@@ -124,7 +140,7 @@ class Teacher_registration : AppCompatActivity() {
     }
 
     private fun genderDropdown(view: View) {
-        val popupMenu = PopupMenu(this, view)
+        val popupMenu = PopupMenu(requireContext(), view)
         val options = resources.getStringArray(R.array.gender)
 
         options.forEach { option ->
@@ -174,13 +190,12 @@ class Teacher_registration : AppCompatActivity() {
 
     }
     private fun createTextWatcher(textInputLayout: TextInputEditText): TextWatcher {
-        val required = getString(R.string.required)
+
         return object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun afterTextChanged(p: Editable?) {
                 if (TextUtils.isEmpty(p.toString().trim())) {
-//
                 } else {
                     textInputLayout.error = null
                 }
@@ -255,13 +270,8 @@ class Teacher_registration : AppCompatActivity() {
             val gender = binding.ettgender.text.toString()
             val experience = binding.ettexperience.text.toString()
             val password = binding.ettpassword.text.toString()
-
-
-
             if (areFieldsValid()) {
-             
                 registerTeacher(username, email, number,branch,subject, gender, experience, password)
-//            val phone =binding.ettnumber.text.toString()
 
             }
         }
@@ -275,33 +285,47 @@ class Teacher_registration : AppCompatActivity() {
 
 
 
-private fun registerTeacher(username: String, email: String, number: String, branch: String, subject: String, gender: String, experience: String, password: String) {
+    private fun registerTeacher(username: String, email: String, number: String, branch: String, subject: String, gender: String, experience: String, password: String) {
 
-    auth.createUserWithEmailAndPassword(email, password)
-        .addOnCompleteListener(this) { task ->
-            if (task.isSuccessful) {
-                val uniqueId = generateUniqueId()
-                val database = FirebaseDatabase.getInstance().getReference("Teacher").child(uniqueId)
-                val user = Teacher(username, email, number, branch, subject, gender, experience, password, uniqueId)
-                database.setValue(user).addOnCompleteListener { dbTask ->
-                    if (dbTask.isSuccessful) {
-                        Toast.makeText(this, getString(R.string.registration_sucess), Toast.LENGTH_SHORT).show()
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(requireActivity()) { task ->
+                if (task.isSuccessful) {
+                    val uniqueId = generateUniqueId()
+                    val database = FirebaseDatabase.getInstance().getReference("Teacher").child(uniqueId)
+                    val user = Teacher(username, email, number, branch, subject, gender, experience, password, uniqueId)
 
-                        val intent = Intent(this, Login_Activity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        startActivity(intent)
-                        finish()
-                    } else {
-                        Toast.makeText(this, getString(R.string.error_saving_user_data), Toast.LENGTH_SHORT).show()
+                    database.setValue(user).addOnCompleteListener { dbTask ->
+                        if (dbTask.isSuccessful) {
+
+                            Toast.makeText(requireContext(), getString(R.string.registration_sucess), Toast.LENGTH_SHORT).show()
+//                            openFragment(admin_home())
+//                            val intent = Intent(requireContext(),Admin_dashboard::class.java)
+//                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                            startActivity(intent)
+                            val fragmentManager = requireActivity().supportFragmentManager
+                            fragmentManager.beginTransaction()
+                                .replace(R.id.add_teacher, admin_home.newInstance())
+                                .commit()
+                        } else {
+                            Toast.makeText(requireContext(), getString(R.string.error_saving_user_data), Toast.LENGTH_SHORT).show()
+                        }
                     }
+                } else {
+                    Toast.makeText(requireContext(), "Registration failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                 }
-            } else {
-                Toast.makeText(this, "Registration failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
             }
-        }
-}
+
+    }
+
+    private fun openFragment(fragment: Fragment) {
+
+            val fragmentTransaction = childFragmentManager.beginTransaction()
+            fragmentTransaction.replace(R.id.fragment_container, fragment)
+
+            fragmentTransaction.commit()
 
 
+    }
 
 
     private fun setupNameValidation() {
@@ -478,8 +502,12 @@ private fun registerTeacher(username: String, email: String, number: String, bra
 
 
 
-
-
-
-
+    companion object {
+        @JvmStatic
+        fun newInstance() = add_teacher().apply {
+            arguments = Bundle().apply {
+                // Pass data if necessary
+            }
+        }
+    }
 }
