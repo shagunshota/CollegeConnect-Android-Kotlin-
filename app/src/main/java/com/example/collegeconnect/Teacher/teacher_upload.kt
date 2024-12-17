@@ -21,6 +21,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import com.example.collegeconnect.Admin.fragment.admin_home
+import com.example.collegeconnect.Models.Teacher
 import com.example.collegeconnect.R
 import com.example.collegeconnect.Student.student_upload.Users
 import com.example.collegeconnect.databinding.ActivityTeacherUploadBinding
@@ -35,6 +38,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import javax.crypto.Cipher
 import javax.crypto.SecretKey
 import javax.crypto.spec.SecretKeySpec
+import kotlin.random.Random
 
 class teacher_upload : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -60,28 +64,29 @@ class teacher_upload : AppCompatActivity() {
         }
         auth = FirebaseAuth.getInstance()
 
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+//
         setupUI()
         setupNameValidation()
         setupSubmitButton()
-        binding.teacherregistration.etBranch.setOnClickListener {
+        binding.etBranch.setOnClickListener {
             showBranchDropdown(it)
         }
 
-        binding.teacherregistration.ettSubject.setOnClickListener {
+        binding.ettSubject.setOnClickListener {
             val select_branch= getString(R.string.select_branchfirst)
-            val selectedBranch = binding.teacherregistration.etBranch.text.toString()
+            val selectedBranch = binding.etBranch.text.toString()
             if (selectedBranch.isNotEmpty()) {
                 showSubjectDropdown(it, selectedBranch)
             } else {
-                binding.teacherregistration.tsubject.error=select_branch
+                binding.tsubject.error=select_branch
             }
         }
 
 
-        binding.teacherregistration.ettgender.setOnClickListener {
+        binding.ettgender.setOnClickListener {
             genderDropdown(it)
         }
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -108,8 +113,8 @@ class teacher_upload : AppCompatActivity() {
 
         popupMenu.setOnMenuItemClickListener { item ->
             val selectedBranch = branches[item.itemId]
-            binding.teacherregistration.etBranch.setText(selectedBranch)
-            binding.teacherregistration.ettSubject.text = null
+            binding.etBranch.setText(selectedBranch)
+            binding.ettSubject.text = null
             true
         }
 
@@ -125,10 +130,10 @@ class teacher_upload : AppCompatActivity() {
             menu.add(0, index, index, subject)
         }
 
-        // Set listener to handle subject selection
+
         popupMenu.setOnMenuItemClickListener { item ->
             val selectedSubject = subjects[item.itemId]
-            binding.teacherregistration.ettSubject.setText(selectedSubject)
+            binding.ettSubject.setText(selectedSubject)
             true
         }
 
@@ -144,8 +149,8 @@ class teacher_upload : AppCompatActivity() {
         }
 
         popupMenu.setOnMenuItemClickListener { menuItem ->
-            binding.teacherregistration.ettgender.setText(menuItem.title)
-            binding.teacherregistration.ettgender.error= null
+            binding.ettgender.setText(menuItem.title)
+            binding.ettgender.error= null
             true
         }
 
@@ -157,13 +162,13 @@ class teacher_upload : AppCompatActivity() {
         val noSpaceInputFilter = InputFilter { source, _, _, _, _, _ ->
             if (source.toString().contains(" ")) {
 
-                if (binding.teacherregistration.ettname.hasFocus()) {
-                    binding.teacherregistration.tname.error = getString(R.string.space_name)
-                } else if (binding.teacherregistration.ettnumber.hasFocus()) {
-                    binding.teacherregistration.tnumber.error = getString(R.string.space_number)
+                if (binding.ettname.hasFocus()) {
+                    binding.tname.error = getString(R.string.space_name)
+                } else if (binding.ettnumber.hasFocus()) {
+                    binding.tnumber.error = getString(R.string.space_number)
                 }
-                else if (binding.teacherregistration.ettexperience.hasFocus()){
-                    binding.teacherregistration.texperience.error= getString(R.string.space_experiance)
+                else if (binding.ettexperience.hasFocus()){
+                    binding.texperience.error= getString(R.string.space_experiance)
                 }
 
                 ""
@@ -171,29 +176,27 @@ class teacher_upload : AppCompatActivity() {
                 null
             }
         }
-        binding.teacherregistration.ettname.filters = arrayOf(noSpaceInputFilter)
-        binding.teacherregistration.ettnumber.filters = arrayOf(noSpaceInputFilter)
+        binding.ettname.filters = arrayOf(noSpaceInputFilter)
+        binding.ettnumber.filters = arrayOf(noSpaceInputFilter)
 
-        binding.teacherregistration.ettname.addTextChangedListener(createTextWatcher(binding.teacherregistration.ettname))
-        binding.teacherregistration.ettemail.addTextChangedListener(createEmailTextWatcher())
-        binding.teacherregistration.ettnumber.filters = arrayOf(InputFilter.LengthFilter(10))
-        binding.teacherregistration.ettnumber.addTextChangedListener(createTextWatcher(binding.teacherregistration.ettnumber))
-        binding.teacherregistration.ettexperience.addTextChangedListener(createTextWatcher(binding.teacherregistration.ettexperience))
-        binding.teacherregistration.ettexperience.filters = arrayOf(InputFilter.LengthFilter(2))
-
-        binding.teacherregistration.ettpassword.filters = arrayOf(InputFilter.LengthFilter(12))
-        binding.teacherregistration.ettpassword.addTextChangedListener(createPasswordTextWatcher())
-        binding.teacherregistration.ettconfirmpass.addTextChangedListener(createConfirmPasswordTextWatcher())
+        binding.ettname.addTextChangedListener(createTextWatcher(binding.ettname))
+        binding.ettemail.addTextChangedListener(createEmailTextWatcher())
+        binding.ettnumber.filters = arrayOf(InputFilter.LengthFilter(10))
+        binding.ettnumber.addTextChangedListener(createTextWatcher(binding.ettnumber))
+        binding.ettexperience.addTextChangedListener(createTextWatcher(binding.ettexperience))
+        binding.ettexperience.filters = arrayOf(InputFilter.LengthFilter(2))
+        binding.ettpassword.filters = arrayOf(InputFilter.LengthFilter(12))
+        binding.ettpassword.addTextChangedListener(createPasswordTextWatcher())
+        binding.ettconfirmpass.addTextChangedListener(createConfirmPasswordTextWatcher())
 
     }
     private fun createTextWatcher(textInputLayout: TextInputEditText): TextWatcher {
-        val required = getString(R.string.required)
+
         return object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun afterTextChanged(p: Editable?) {
                 if (TextUtils.isEmpty(p.toString().trim())) {
-//
                 } else {
                     textInputLayout.error = null
                 }
@@ -208,9 +211,9 @@ class teacher_upload : AppCompatActivity() {
             override fun afterTextChanged(p: Editable?) {
                 val email = p.toString().trim()
                 if (TextUtils.isEmpty(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    binding.teacherregistration.temail.error = valid_email
+                    binding.temail.error = valid_email
                 } else {
-                    binding.teacherregistration.temail.error = null
+                    binding.temail.error = null
                 }
             }
         }
@@ -224,11 +227,13 @@ class teacher_upload : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {
                 val pass = s.toString().trim()
                 if (TextUtils.isEmpty(pass) || !isValidPassword(pass)) {
-                    binding.teacherregistration.tpassword.error = valid_password
+                    binding.tpassword.error = valid_password
                 } else {
-                    binding.teacherregistration.tpassword.error = null // Clear error when password is valid
+                    binding.tpassword.error = null
                 }
             }
+
+
 
             private fun isValidPassword(password: String): Boolean {
                 val passwordRegex =
@@ -245,11 +250,11 @@ class teacher_upload : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
                 val confirmPass = s.toString().trim()
-                val pass = binding.teacherregistration.ettpassword.text.toString().trim()
+                val pass = binding.ettpassword.text.toString().trim()
                 if (TextUtils.isEmpty(confirmPass) || confirmPass != pass) {
-                    binding.teacherregistration.ettconfirmpass.error = match_pass
+                    binding.ettconfirmpass.error = match_pass
                 } else {
-                    binding.teacherregistration.ettconfirmpass.error = null
+                    binding.ettconfirmpass.error = null
                 }
             }
         }
@@ -257,91 +262,79 @@ class teacher_upload : AppCompatActivity() {
 
     private fun setupSubmitButton() {
 
-        binding.teacherregistration.tsubmitbtn.setOnClickListener{
-            val email = binding.teacherregistration.ettemail.text.toString()
-
+        binding.tsubmitbtn.setOnClickListener{
+            val username = binding.ettname.text.toString()
+            val email = binding.ettemail.text.toString()
+            val number = binding.ettnumber.text.toString()
+            val branch =binding.etBranch.text.toString()
+            val subject = binding.ettSubject.text.toString()
+            val gender = binding.ettgender.text.toString()
+            val experience = binding.ettexperience.text.toString()
+            val password = binding.ettpassword.text.toString()
             if (areFieldsValid()) {
-                val updatedUser = Users(
-                    username = binding.teacherregistration.ettname.text.toString(),
-                    email = binding.teacherregistration.ettemail.text.toString(),
-                    number = binding.teacherregistration.ettnumber.text.toString(),
-                    branch =binding.teacherregistration.etBranch.text.toString(),
-                    subject = binding.teacherregistration.ettSubject.text.toString(),
-                    gender = binding.teacherregistration.ettgender.text.toString(),
-                    experience = binding.teacherregistration.ettexperience.text.toString(),
-                    password = binding.teacherregistration.ettpassword.text.toString()
+                registerTeacher(username, email, number,branch,subject, gender, experience, password)
 
-
-                )
-                updateTeacher(email,updatedUser)
             }
         }
     }
+    private fun generateUniqueId(): String {
+        return Random.nextInt(100000, 999999).toString()
 
-    private fun updateTeacher(email: String, updatedUser:Users) {
-        val database = FirebaseDatabase.getInstance().getReference("Teacher")
+    }
 
 
-        database.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(object :
-            ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    for (userSnapshot in snapshot.children) {
 
-                        userSnapshot.ref.setValue(updatedUser).addOnCompleteListener { updateTask ->
-                            if (updateTask.isSuccessful) {
-                                Toast.makeText(this@teacher_upload, getString(R.string.data_updated), Toast.LENGTH_SHORT).show()
-                            } else {
-                                Toast.makeText(this@teacher_upload, getString(R.string.fail_update), Toast.LENGTH_SHORT).show()
-                            }
+    private fun registerTeacher(username: String, email: String, number: String, branch: String, subject: String, gender: String, experience: String, password: String) {
+
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val uniqueId = generateUniqueId()
+                    val database = FirebaseDatabase.getInstance().getReference("Teacher").child(uniqueId)
+                    val user = Teacher(username, email, number, branch, subject, gender, experience, password, uniqueId)
+
+                    database.setValue(user).addOnCompleteListener { dbTask ->
+                        if (dbTask.isSuccessful) {
+
+                            Toast.makeText(this, getString(R.string.registration_sucess), Toast.LENGTH_SHORT).show()
+//                            openFragment(admin_home())
+//                            val intent = Intent(requireContext(),Admin_dashboard::class.java)
+//                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                            startActivity(intent)
+                            val fragmentManager =this.supportFragmentManager
+                            fragmentManager.beginTransaction()
+                                .replace(R.id.add_teacher, admin_home.newInstance())
+                                .commit()
+                        } else {
+                            Toast.makeText(this, getString(R.string.error_saving_user_data), Toast.LENGTH_SHORT).show()
                         }
-                        binding.teacherregistration.ettname.text?.clear()
-                        binding.teacherregistration.ettemail.text?.clear()
-                        binding.teacherregistration.ettnumber.text?.clear()
-                        binding.teacherregistration.etBranch.text?.clear()
-                        binding.teacherregistration.ettSubject.text?.clear()
-                        binding.teacherregistration.ettgender.text?.clear()
-                        binding.teacherregistration.ettexperience.text?.clear()
-                        binding.teacherregistration.ettpassword.text?.clear()
-                        binding.teacherregistration.ettconfirmpass.text?.clear()
-
                     }
                 } else {
-                    Toast.makeText(this@teacher_upload, getString(R.string.user_with_email), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Registration failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                 }
             }
 
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@teacher_upload, "Database error: ${error.message}", Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
-    data class Users(
-        val username: String = " ",
-        val email: String =" " ,
-        val number: String =" " ,
-        val branch : String =" ",
-        val subject: String = " ",
-        val gender: String= " ",
-        val experience: String = " ",
-        val password: String=" "
-    ) {
-
     }
 
+    private fun openFragment(fragment: Fragment) {
+
+        val fragmentTransaction =supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.fragment_container, fragment)
+
+        fragmentTransaction.commit()
 
 
+    }
     private fun setupNameValidation() {
-        val nameEditText: TextInputEditText = binding.teacherregistration.ettname
+        val nameEditText: TextInputEditText = binding.ettname
 
         nameEditText.addTextChangedListener(object : TextWatcher {
-
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s != null && s.any { it.isDigit() }) {
-                    binding.teacherregistration.tname.error = getString(R.string.valid_name)
+                    binding.tname.error = getString(R.string.valid_name)
 
 
                     val filteredText = s.filter { !it.isDigit() }
@@ -350,7 +343,7 @@ class teacher_upload : AppCompatActivity() {
                     nameEditText.setSelection(filteredText.length)
 
                 } else {
-                    binding.teacherregistration.tname.error = null
+                    binding.tname.error = null
                 }
             }
 
@@ -367,113 +360,126 @@ class teacher_upload : AppCompatActivity() {
         return Base64.encodeToString(encryptedBytes, Base64.DEFAULT) + ":" + Base64.encodeToString(iv, Base64.DEFAULT)
 
     }
-
-
-
     private fun isValidname(etname: String): Boolean {
+
         val nameRegex = "^[a-zA-Z]+$"
         return etname.matches(nameRegex.toRegex())
     }
 
     private fun areFieldsValid(): Boolean {
-
         val match_pass = getString(R.string.match_pass)
         val valid_email = getString(R.string.valid_email)
         val valid_password = getString(R.string.valid_pass)
+
+
         var isValid = true
 
-
-        val name = binding.teacherregistration.ettname.text.toString().trim()
+//        for name
+        val name = binding.ettname.text.toString().trim()
         if (TextUtils.isEmpty(name)) {
-            binding.teacherregistration.tname.error = getString(R.string.empty_name)
+            binding.tname.error = getString(R.string.empty_name)
 
         } else if (!isValidname(name)) {
-            binding.teacherregistration.tname.error = getString(R.string.valid_name)
+            binding.tname.error = getString(R.string.valid_name)
             isValid = false
         } else {
-            binding.teacherregistration.tname.error = null
+            binding.tname.error = null // Clear error if valid
         }
 
 
+//        for email
+        val email = binding.ettemail.text.toString()
         if (TextUtils.isEmpty(
-                binding.teacherregistration.ettemail.text.toString().trim()) ) {
-            binding.teacherregistration.temail.error = getString(R.string.empty_email)
+                binding.ettemail.text.toString().trim()) ) {
+            binding.temail.error = getString(R.string.empty_email)
 
         }
-        else if(!Patterns.EMAIL_ADDRESS.matcher(binding.teacherregistration.ettemail.text.toString().trim()).matches()){
-            binding.teacherregistration.temail.error = valid_email
+        else if(!Patterns.EMAIL_ADDRESS.matcher(binding.ettemail.text.toString().trim()).matches()){
+            binding.temail.error = valid_email
 
             isValid = false
         }
         else{
-            binding.teacherregistration.temail.error=null
+            binding.temail.error=null
         }
 
 
-        if (TextUtils.isEmpty(binding.teacherregistration.ettnumber.text.toString().trim())) {
-            binding.teacherregistration.tnumber.error = getString(R.string.empty_number)
+//        for contact
+        if (TextUtils.isEmpty(binding.ettnumber.text.toString().trim())) {
+            binding.tnumber.error = getString(R.string.empty_number)
             isValid = false
         }
         else{
-            binding.teacherregistration.tnumber.error=null
+            binding.tnumber.error=null
         }
 
-        if(TextUtils.isEmpty(binding.teacherregistration.etBranch.text.toString().trim())){
-            binding.teacherregistration.tbranch.error = getString(R.string.empty_branch)
+
+//        for branch
+
+        if(TextUtils.isEmpty(binding.etBranch.text.toString().trim())){
+            binding.tbranch.error = getString(R.string.empty_branch)
             isValid= false
         }
 
 
-        if (binding.teacherregistration.ettSubject.text.isNullOrEmpty()) {
-            binding.teacherregistration.tsubject.error = getString(R.string.empty_subject)
+
+        //        for subject
+        if (binding.ettSubject.text.isNullOrEmpty()) {
+            binding.tsubject.error = getString(R.string.empty_subject)
             isValid = false
         }
         else{
-            binding.teacherregistration.tsubject.error= null
+            binding.tsubject.error= null
 
         }
 
 
 
-        if (binding.teacherregistration.ettgender.text.isNullOrEmpty()) {
-            binding.teacherregistration.tgender.error = getString(R.string.empty_gender)
+
+
+//        for gender
+        if (binding.ettgender.text.isNullOrEmpty()) {
+            binding.tgender.error = getString(R.string.empty_gender)
             isValid = false
         }
         else{
-            binding.teacherregistration.tgender.error =null
+            binding.tgender.error =null
 
         }
 
 
+//        for Experience
 
-        if(TextUtils.isEmpty(binding.teacherregistration.ettexperience.text.toString().trim())){
-            binding.teacherregistration.texperience.error = getString(R.string.empty_experience)
+        if(TextUtils.isEmpty(binding.ettexperience.text.toString().trim())){
+            binding.texperience.error = getString(R.string.empty_experience)
             isValid = false
         }
 
 
 
-        if (TextUtils.isEmpty(binding.teacherregistration.ettpassword.text.toString().trim())) {
-            binding.teacherregistration.tpassword.error = getString(R.string.empty_pass)
+
+//        for password
+        if (TextUtils.isEmpty(binding.ettpassword.text.toString().trim())) {
+            binding.tpassword.error = getString(R.string.empty_pass)
             isValid = false
         }
-        else if (!isValidPassword(binding.teacherregistration.ettpassword.text.toString().trim())){
-            binding.teacherregistration.tpassword.error=valid_password
+        else if (!isValidPassword(binding.ettpassword.text.toString().trim())){
+            binding.tpassword.error=valid_password
 
         }
 
         else{
-            binding.teacherregistration.ettpassword.error=null
+            binding.ettpassword.error=null
         }
 
 
-
-        if (TextUtils.isEmpty(binding.teacherregistration.ettconfirmpass.text.toString().trim()) || binding.teacherregistration.ettconfirmpass.text.toString().trim() != binding.teacherregistration.ettpassword.text.toString().trim()) {
-            binding.teacherregistration.tconfirmpass.error = match_pass
+//        for confirm password
+        if (TextUtils.isEmpty(binding.ettconfirmpass.text.toString().trim()) || binding.ettconfirmpass.text.toString().trim() != binding.ettpassword.text.toString().trim()) {
+            binding.tconfirmpass.error = match_pass
             isValid = false
         }
         else{
-            binding.teacherregistration.tconfirmpass.error =null
+            binding.tconfirmpass.error =null
         }
 
 
@@ -486,5 +492,13 @@ class teacher_upload : AppCompatActivity() {
             "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#\$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]).{8,12}\$"
         return password.matches(passwordRegex.toRegex())
     }
+
+
+
+
+
+
+
+
 
 }

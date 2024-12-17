@@ -60,10 +60,7 @@ class teacher_student : Fragment() {
         recyclerView.adapter = userAdapter
 
         fetchUserData()
-        binding.toolbar.setOnClickListener() {
-            showDropdownMenu(it)
 
-        }
 
         return binding.root
     }

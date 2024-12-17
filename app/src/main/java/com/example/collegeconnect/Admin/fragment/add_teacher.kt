@@ -51,7 +51,7 @@ class add_teacher : Fragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_teacher, container, false)
 
         setupToolbar()
-//        setupBackPressedCallback()
+//
         setupUI()
         setupNameValidation()
         setupSubmitButton()

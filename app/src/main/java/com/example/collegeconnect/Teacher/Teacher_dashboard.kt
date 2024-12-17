@@ -70,7 +70,7 @@ class Teacher_dashboard : AppCompatActivity() {
                 }
                 R.id.teacher_student-> {
                     loadFragment(teacher_student())
-                    toolbar.title = getString(R.string.teacher)
+                    toolbar.title = getString(R.string.student)
                     true
                 }
 
@@ -95,7 +95,7 @@ class Teacher_dashboard : AppCompatActivity() {
 
     private fun showDropdownMenu(anchor: View) {
         val popupMenu = PopupMenu(this, anchor)
-        popupMenu.menuInflater.inflate(R.menu.admin_option, popupMenu.menu)
+        popupMenu.menuInflater.inflate(R.menu.options, popupMenu.menu)
 
         popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
             when (menuItem.itemId) {
