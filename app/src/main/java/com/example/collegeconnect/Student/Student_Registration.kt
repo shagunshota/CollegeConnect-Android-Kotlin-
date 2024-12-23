@@ -13,12 +13,14 @@ import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Patterns
 import android.view.View
+import android.view.Window
 import android.view.WindowManager
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
@@ -49,8 +51,13 @@ class Student_Registration : AppCompatActivity() {
         etdb.setOnClickListener { showDatePickerDialog() }
         setupUI()
         setupNameValidation()
+        changeStatusBarColor()
         setupImageSelector()
         setupSubmitButton()
+        binding.back.setOnClickListener {
+            startActivity(Intent(this, Login_Activity::class.java))
+            finish()
+        }
         binding.etsemester.setOnClickListener {
             semDropdown(it)
         }
@@ -101,8 +108,13 @@ class Student_Registration : AppCompatActivity() {
         }
         popupMenu.show()
     }
+    private fun changeStatusBarColor() {
+        val window: Window = window
+        window.statusBarColor = ContextCompat.getColor(this, R.color.blue)
+    }
 
-    private fun genderDropdown(view: View) {
+
+        private fun genderDropdown(view: View) {
         val popupMenu = PopupMenu(this, view)
         val options = resources.getStringArray(R.array.gender)
 
@@ -330,21 +342,19 @@ class Student_Registration : AppCompatActivity() {
 
         }
     }
-    private fun generateUniqueId(): String {
-        return Random.nextInt(100000, 999999).toString()
 
-    }
 
     private fun registerStudent(username: String, email: String, number: String, rollno: String, dob: String, gender: String, session: String, semester: String, branch: String, password: String, image: String) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    val uniqueId = generateUniqueId()
+
+                    val userId = auth.currentUser?.uid ?: return@addOnCompleteListener
                     val database =
-                        FirebaseDatabase.getInstance().getReference("Student").child(uniqueId)
+                        FirebaseDatabase.getInstance().getReference("Student").child(userId)
 
 
-                   val user = Student(username,email,number,rollno,dob, gender, session,semester,branch,password,image,uniqueId)
+                    val user = Users(username,email,number,rollno,dob, gender, session,semester,branch,password,image)
                     database.setValue(user).addOnCompleteListener { dbTask ->
                         if (dbTask.isSuccessful) {
                             Toast.makeText(this, getString(R.string.registration_sucess), Toast.LENGTH_SHORT)
@@ -367,6 +377,22 @@ class Student_Registration : AppCompatActivity() {
                     ).show()
                 }
             }
+    }
+    data class Users(
+        val username: String,
+        val email: String,
+        val number: String,
+        val rollno: String,
+        val dob: String,
+        val gender: String,
+        val session: String,
+        val semester: String,
+        val branch: String,
+        val password: String,
+        val image: String
+    ) {
+        constructor() : this("", "", "", "", "", "", "", "", "", "", "")
+
     }
 
    

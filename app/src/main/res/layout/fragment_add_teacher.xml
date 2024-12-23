@@ -12,11 +12,12 @@
     tools:context=".Admin.fragment.add_teacher">
 
         <ScrollView
-            android:id="@+id/main"
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".Teacher.Teacher_registration">
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -48,7 +49,7 @@
                             android:fontFamily="sans-serif-light"
                             android:gravity="center"
                             android:padding="@dimen/_6sdp"
-                            android:textColor="@color/lightblue"
+                            android:textColor="@color/green"
                             android:text="@string/add_teacher"
                             android:textSize="@dimen/_30sdp"
                             android:textStyle="bold"
@@ -237,7 +238,7 @@
                     android:layout_height="@dimen/_40sdp"
                     android:layout_marginTop="@dimen/_60sdp"
                     android:shadowColor="@color/black"
-                    android:backgroundTint="@color/lightblue"
+                    android:backgroundTint="@color/green"
                     android:textColor="@color/white"
                     android:shadowDx="3"
                     android:shadowDy="3"

@@ -9,7 +9,8 @@ val subject: String,
 val gender: String,
 val experience: String,
 val password: String,
-val uniqueId: String
+val uniqueId: String,
+    val userId : String
 ){
-    constructor() : this("", "", "", "", "", "", "", "", "")
+    constructor() : this("", "", "", "", "", "", "", "", "","")
 }

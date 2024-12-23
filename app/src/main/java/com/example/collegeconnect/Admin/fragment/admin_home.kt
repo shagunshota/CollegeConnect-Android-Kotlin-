@@ -13,6 +13,7 @@ import android.widget.EditText
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.NotificationCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
 import com.example.collegeconnect.Admin.add_fee
@@ -24,6 +25,7 @@ import com.example.collegeconnect.R
 import com.example.collegeconnect.Student.Student_Registration
 import com.example.collegeconnect.Superadmin.fragment.supad_home.NotificationEvent
 import com.example.collegeconnect.Teacher.Teacher_registration
+import com.example.collegeconnect.Teacher.fragment.teacher_home
 import com.example.collegeconnect.databinding.FragmentAdminHomeBinding
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
@@ -46,34 +48,74 @@ class admin_home : Fragment() {
         countStudent()
         countTeacher()
         checkNetworkStatus()
-        binding.addTeacher.setOnClickListener {
-           openFragment(add_teacher())
-               val fragmentManager = requireActivity().supportFragmentManager
-                   fragmentManager.beginTransaction()
-               .replace(R.id.fragment_container, add_teacher.newInstance())
-               .commit()
+//        binding.addTeacher.setOnClickListener {
+//           openFragment(add_teacher())
+//               val fragmentManager = requireActivity().supportFragmentManager
+//                   fragmentManager.beginTransaction()
+//               .replace(R.id.fragment_container, add_teacher.newInstance())
+//               .commit()
+//
+//        }
+//        binding.addStudent.setOnClickListener {
+//            openFragment(add_Student())
+//            val fragmentManager = requireActivity().supportFragmentManager
+//            fragmentManager.beginTransaction()
+//                .replace(R.id.fragment_container, add_Student.newInstance())
+//                .commit()
+//        }
+//        binding.addNoti.setOnClickListener {
+//            notificationdialog()
+//
+//        }
+//        binding.addEvent.setOnClickListener {
+//            eventdialog()
+//        }
+        binding.add.setOnClickListener { anchor ->
+            additionalMenu(anchor)
 
-        }
-        binding.addStudent.setOnClickListener {
-            openFragment(add_Student())
-            val fragmentManager = requireActivity().supportFragmentManager
-            fragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, add_Student.newInstance())
-                .commit()
-        }
-
-        binding.addNoti.setOnClickListener {
-            notificationdialog()
-
-        }
-        binding.addEvent.setOnClickListener {
-            eventdialog()
         }
 
 
 
         return binding.root
     }
+
+
+//
+    private fun additionalMenu(anchor: View) {
+
+        val popupMenu = PopupMenu(requireContext(), anchor)
+        popupMenu.menuInflater.inflate(R.menu.admin_add, popupMenu.menu)
+
+        popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
+            when (menuItem.itemId) {
+                R.id.add_fee -> {
+                     openFragment(add_fees())
+                    true
+                }
+                R.id.add_teacher -> {
+                    openFragment(add_teacher())
+                    true
+                }
+                R.id.add_student -> {
+                   openFragment(add_Student())
+                    true
+                }
+                R.id.add_noti -> {
+                    openFragment(add_notification())
+                    true
+                }
+                R.id.add_event -> {
+                    openFragment(add_event())
+                    true
+                }
+                else -> false
+            }
+        }
+        popupMenu.show()
+    }
+
+
     private fun openFragment(fragment: Fragment) {
         val fragmentTransaction = childFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.main, fragment)
@@ -100,6 +142,8 @@ class admin_home : Fragment() {
         val username: String = "",
         val email: String = "",
         val uniqueId: String = "")
+
+
 
     private fun notificationdialog() {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.notification_input, null)
@@ -139,7 +183,7 @@ class admin_home : Fragment() {
         if (key != null) {
             attendanceRef.child(key).setValue(attendanceData)
                 .addOnSuccessListener {
-                    Toast.makeText(requireContext(), "Attendance added successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Notification added successfully", Toast.LENGTH_SHORT).show()
                 }
                 .addOnFailureListener { e ->
                     Toast.makeText(requireContext(), "Failed to add attendance: ${e.message}", Toast.LENGTH_SHORT).show()
@@ -202,7 +246,7 @@ class admin_home : Fragment() {
         if (key != null) {
             attendanceRef.child(key).setValue(attendanceData)
                 .addOnSuccessListener {
-                    Toast.makeText(requireContext(), "Attendance added successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "Event added successfully", Toast.LENGTH_SHORT).show()
                 }
                 .addOnFailureListener { e ->
                     Toast.makeText(requireContext(), "Failed to add attendance: ${e.message}", Toast.LENGTH_SHORT).show()

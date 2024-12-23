@@ -7,10 +7,17 @@
         <!-- Add your ViewModel or binding variables here if needed -->
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <FrameLayout
+        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".Teacher.fragment.teacher_home">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
 
 
         <TextView
@@ -258,7 +265,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="8dp"
-                            android:text="0"
+                            android:text="1"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_40sdp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -312,7 +319,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
-                            android:text="0"
+                            android:text="3"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_40sdp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -368,7 +375,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
-                            android:text="0"
+                            android:text="3"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_40sdp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -383,7 +390,8 @@
 
             </LinearLayout>
         </ScrollView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
 </layout>
 
 

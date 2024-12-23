@@ -17,9 +17,9 @@
             android:id="@+id/teachertoolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_40sdp"
-            android:background="@color/lightblue"
+            android:background="@color/green"
             app:title="@string/profile"
-            app:navigationIcon="@drawable/back"
+            app:navigationIcon="@drawable/backwhite"
             app:titleTextColor="@color/white"
             app:layout_constraintTop_toTopOf="parent" />
 

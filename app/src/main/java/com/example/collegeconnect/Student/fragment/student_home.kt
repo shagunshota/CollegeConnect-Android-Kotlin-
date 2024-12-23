@@ -34,7 +34,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 class student_home : Fragment() {
-    private lateinit var binding :FragmentStudentHomeBinding
+
     private lateinit var auth: FirebaseAuth
 
 
@@ -67,7 +67,6 @@ class student_home : Fragment() {
             showDropdownMenu(it)
         }
 
-
         if(userId!=null){
             val database = FirebaseDatabase.getInstance().getReference("Student").child(userId)
             database.get().addOnCompleteListener { task ->
@@ -75,24 +74,36 @@ class student_home : Fragment() {
                     val user = task.result.getValue(Users::class.java)
                     if(user!=null){
                         binding.welcomeTextView.text="Welcome,${user.username}!"
-                        binding.studentid.text= user.rollno
-                        binding.stubranch.text= user.branch
+                        binding.studentid.text="${user.rollno}"
+                        binding.stubranch.text="${user.branch}"
                     }
                     else{
                         Toast.makeText(requireContext(), "User not found in database", Toast.LENGTH_SHORT).show()
                     }
                 }else{
                     Toast.makeText(requireContext(),"Failed to load data",Toast.LENGTH_SHORT).show()
-                } }
-        } else{
+                }
+            }
+        }
+        else{
             Toast.makeText(requireContext(),"User not logged in",Toast.LENGTH_SHORT).show()
             val intent = Intent(requireContext(),Login_Activity::class.java)
             startActivity(intent)
+
         }
 
 
 
         return binding.root
+    }
+    data class Users(
+        val username: String = "",
+        val email: String = "",
+        val rollno : String =" ",
+        val password : String =" ",
+        val branch: String =" "
+    ) {
+        constructor() : this("", "","","","")
     }
 
 

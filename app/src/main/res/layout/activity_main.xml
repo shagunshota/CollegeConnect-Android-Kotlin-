@@ -11,46 +11,48 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background1"
+
+
         tools:context=".MainActivity">
 
         <TextView
             android:id="@+id/ss1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_18ssp"
-            android:layout_marginEnd="@dimen/_10ssp"
             android:text="@string/college"
             android:textColor="@color/black"
             android:textSize="@dimen/_40ssp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/si1"
-            app:layout_constraintTop_toTopOf="@+id/si1" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.467" />
 
         <ImageView
             android:id="@+id/si1"
-            android:layout_width="@dimen/_45sdp"
-            android:layout_height="@dimen/_45sdp"
+            android:layout_width="61dp"
+            android:layout_height="53dp"
+            android:layout_marginBottom="4dp"
             android:src="@drawable/gra"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.382" />
+            app:layout_constraintBottom_toTopOf="@+id/ss2"
+            app:layout_constraintEnd_toEndOf="@+id/ss2"
+            app:layout_constraintHorizontal_bias="0.467"
+            app:layout_constraintStart_toStartOf="@+id/ss1" />
 
         <TextView
             android:id="@+id/ss2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_103sdp"
-            android:layout_marginTop="@dimen/_2ssp"
+            android:layout_marginStart="140dp"
+            android:layout_marginTop="40dp"
             android:text="@string/connect"
             android:textColor="@color/black"
             android:textSize="@dimen/_40ssp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/ss1"
-            app:layout_constraintTop_toBottomOf="@+id/si1" />
-
+            app:layout_constraintTop_toTopOf="@+id/ss1" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

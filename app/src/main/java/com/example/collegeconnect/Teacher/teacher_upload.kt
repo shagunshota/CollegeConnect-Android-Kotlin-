@@ -35,6 +35,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.UUID
 import javax.crypto.Cipher
 import javax.crypto.SecretKey
 import javax.crypto.spec.SecretKeySpec
@@ -63,8 +64,6 @@ class teacher_upload : AppCompatActivity() {
 
         }
         auth = FirebaseAuth.getInstance()
-
-//
         setupUI()
         setupNameValidation()
         setupSubmitButton()
@@ -97,7 +96,7 @@ class teacher_upload : AppCompatActivity() {
 
     private fun changeStatusBarColor() {
         val window: Window = window
-        window.statusBarColor = ContextCompat.getColor(this, R.color.lightblue)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.green)
     }
 
     private fun showBranchDropdown(view: View) {
@@ -285,13 +284,13 @@ class teacher_upload : AppCompatActivity() {
 
 
     private fun registerTeacher(username: String, email: String, number: String, branch: String, subject: String, gender: String, experience: String, password: String) {
-
+        val userId = FirebaseDatabase.getInstance().reference.push().key ?: UUID.randomUUID().toString()
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val uniqueId = generateUniqueId()
-                    val database = FirebaseDatabase.getInstance().getReference("Teacher").child(uniqueId)
-                    val user = Teacher(username, email, number, branch, subject, gender, experience, password, uniqueId)
+                    val database = FirebaseDatabase.getInstance().getReference("Teacher").child(userId)
+                    val user = Teacher(username, email, number, branch, subject, gender, experience, password, uniqueId, userId )
 
                     database.setValue(user).addOnCompleteListener { dbTask ->
                         if (dbTask.isSuccessful) {

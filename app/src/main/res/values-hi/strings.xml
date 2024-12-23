@@ -63,7 +63,7 @@
     <string name="password"> पासवर्ड </string>
     <string name="type_pass">पासवर्ड टाइप करें  </string>
     <string name="conf_pass">   पासवर्ड की पुष्टि करें </string>
-    <string name="retype_pass" tools:ignore="ExtraTranslation">  पासवर्ड पुनः टाइप करें </string>
+
     <string name="pic">  छात्र चित्र</string>
     <string name="sel_image">छवि का चयन करें  </string>
     <string name="select_sem" tools:ignore="ExtraTranslation"> अपना सत्र चुनें  </string>
@@ -256,6 +256,13 @@
 
     <string name="attach_Pdf">Please upload a pdf</string>
     <string name="empty_unit"> Unit can not be empty.</string>
+    <string name="pdf">pdf</string>
+    <string name="add_teacher">Add Teacher</string>
+    <string name="add_student">Add Student</string>
+    <string name="retype_pass">पासवर्ड पुनः टाइप करें</string>
+    <string name="number_digits">Number contain 10 digits. </string>
+    <string name="back"> Go Back</string>
+
 
 
 

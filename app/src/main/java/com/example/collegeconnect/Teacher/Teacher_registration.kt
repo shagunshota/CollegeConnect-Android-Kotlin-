@@ -11,11 +11,13 @@ import android.text.TextWatcher
 import android.util.Base64
 import android.util.Patterns
 import android.view.View
+import android.view.Window
 import android.view.WindowManager
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
@@ -29,6 +31,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import java.util.UUID
 import javax.crypto.Cipher
 import javax.crypto.SecretKey
 import javax.crypto.spec.SecretKeySpec
@@ -56,6 +59,11 @@ class Teacher_registration : AppCompatActivity() {
         setupUI()
         setupNameValidation()
         setupSubmitButton()
+        changeStatusBarColor()
+        binding.back.setOnClickListener {
+            startActivity(Intent(this,Login_Activity::class.java))
+            finish()
+        }
         binding.etBranch.setOnClickListener {
             showBranchDropdown(it)
         }
@@ -71,6 +79,7 @@ class Teacher_registration : AppCompatActivity() {
         }
 
 
+
         binding.ettgender.setOnClickListener {
             genderDropdown(it)
         }
@@ -80,6 +89,11 @@ class Teacher_registration : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+    }
+    private fun changeStatusBarColor() {
+        val window: Window = window
+        window.statusBarColor = ContextCompat.getColor(this, R.color.green)
+
     }
 
 
@@ -275,31 +289,55 @@ class Teacher_registration : AppCompatActivity() {
 
 
 
-private fun registerTeacher(username: String, email: String, number: String, branch: String, subject: String, gender: String, experience: String, password: String) {
+    private fun registerTeacher(username: String, email: String, number: String, branch: String, subject: String, gender: String, experience: String, password: String) {
 
-    auth.createUserWithEmailAndPassword(email, password)
-        .addOnCompleteListener(this) { task ->
-            if (task.isSuccessful) {
-                val uniqueId = generateUniqueId()
-                val database = FirebaseDatabase.getInstance().getReference("Teacher").child(uniqueId)
-                val user = Teacher(username, email, number, branch, subject, gender, experience, password, uniqueId)
-                database.setValue(user).addOnCompleteListener { dbTask ->
-                    if (dbTask.isSuccessful) {
-                        Toast.makeText(this, getString(R.string.registration_sucess), Toast.LENGTH_SHORT).show()
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
 
-                        val intent = Intent(this, Login_Activity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        startActivity(intent)
-                        finish()
-                    } else {
-                        Toast.makeText(this, getString(R.string.error_saving_user_data), Toast.LENGTH_SHORT).show()
+                    val uniqueId = generateUniqueId()
+
+                    val userId = auth.currentUser?.uid ?: return@addOnCompleteListener
+
+
+                    val database = FirebaseDatabase.getInstance().getReference("Teacher").child(userId)
+
+
+                    val user = User(username, email, number, branch, subject, gender, experience, password, uniqueId,userId)
+
+
+                    database.setValue(user).addOnCompleteListener { dbTask ->
+                        if (dbTask.isSuccessful) {
+                            Toast.makeText(this, getString(R.string.registration_sucess), Toast.LENGTH_SHORT).show()
+
+                            val intent = Intent(this, Login_Activity::class.java)
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            startActivity(intent)
+                            finish()
+                        } else {
+                            Toast.makeText(this, getString(R.string.error_saving_user_data), Toast.LENGTH_SHORT).show()
+                        }
                     }
+                } else {
+                    Toast.makeText(this, "Registration failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
                 }
-            } else {
-                Toast.makeText(this, "Registration failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
             }
-        }
-}
+    }
+
+    data class User(
+        val username: String,
+        val email: String ,
+        val number: String ,
+        val branch : String,
+        val subject: String,
+        val gender: String,
+        val experience: String,
+        val password: String,
+        val uniqueId: String,
+        val userId: String
+    ){
+        constructor() : this("","", "", "", "", "", "", "", "", "")
+    }
 
 
 

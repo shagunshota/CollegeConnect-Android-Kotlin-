@@ -19,11 +19,12 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
+            android:background="@color/white"
             android:elevation="4dp"
+            app:titleTextColor="@color/green"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            android:titleTextColor="@android:color/white"
             android:title="Home" >
+
             <ImageView
                 android:id="@+id/menu"
                 android:layout_width="wrap_content"
@@ -45,7 +46,7 @@
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
+            android:background="@color/purewhite"
             app:menu="@menu/bottomnav_admin" />
     </LinearLayout>
 

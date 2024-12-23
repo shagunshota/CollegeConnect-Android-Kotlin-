@@ -60,16 +60,19 @@ class Admin_dashboard : AppCompatActivity() {
                 R.id.admin_home -> {
                     loadFragment(admin_home())
                     toolbar.title = getString(R.string.cc)
+                    toolbar.setTitleTextColor(getColor(R.color.green))
                     true
                 }
                 R.id.admin_teacher-> {
                     loadFragment(admin_teacher())
                     toolbar.title = getString(R.string.teacher)
+                    toolbar.setTitleTextColor(getColor(R.color.green))
                     true
                 }
                 R.id.admin_student -> {
                     loadFragment(admin_student())
                     toolbar.title = getString(R.string.student)
+                    toolbar.setTitleTextColor(getColor(R.color.green))
                     true
                 }
                 else -> false
@@ -85,7 +88,7 @@ class Admin_dashboard : AppCompatActivity() {
 
     private fun setupToolbarMenu() {
         val menuButton = findViewById<View>(R.id.menu)
-        menuButton.setOnClickListener { anchor ->
+        binding.menu.setOnClickListener { anchor ->
             showDropdownMenu(anchor)
         }
     }
@@ -102,10 +105,6 @@ class Admin_dashboard : AppCompatActivity() {
                 }
                 R.id.settings -> {
                     startActivity(Intent(this,admin_settings::class.java))
-                    true
-                }
-                R.id.add_fee -> {
-                   startActivity(Intent(this,add_fee::class.java))
                     true
                 }
                 else -> false
@@ -125,7 +124,7 @@ class Admin_dashboard : AppCompatActivity() {
 
     private fun changeStatusBarColor() {
         val window: Window = window
-        window.statusBarColor = ContextCompat.getColor(this, R.color.lightblue)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.green)
 
     }
     private fun loadFragment(fragment: androidx.fragment.app.Fragment) {

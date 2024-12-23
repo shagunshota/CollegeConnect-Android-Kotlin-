@@ -96,6 +96,21 @@ class admin_teacher : Fragment() {
                 Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
             }
     }
+//    private fun countStudent() {
+//        val database = FirebaseDatabase.getInstance()
+//        val tableRef = database.getReference("Student")
+//        tableRef.addListenerForSingleValueEvent(object : ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                val count = snapshot.childrenCount
+//                binding.count.text = count.toString() // Ensure `countTextView` is present in XML
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_SHORT).show()
+//            }
+//        })
+//    }
+
 
 
     @SuppressLint("MissingInflatedId")

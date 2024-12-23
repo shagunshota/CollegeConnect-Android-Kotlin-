@@ -10,9 +10,11 @@ import android.text.InputFilter
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.util.Patterns
+import android.view.Window
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
@@ -50,10 +52,15 @@ class Login_Activity : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
         val role = intent.getStringExtra("role")
+        binding.back.setOnClickListener {
+            startActivity(Intent(this,Selectrole::class.java))
+            finish()
+        }
 
         setupUI()
         performloginaction()
         checkNetworkStatus()
+        changeStatusBarColor()
 
 
 
@@ -243,7 +250,7 @@ class Login_Activity : AppCompatActivity() {
 
         val noSpaceInputFilter = InputFilter { source, _, _, _, _, _ ->
             if (source.toString().contains(" ")) {
-                // Set error on respective TextInputLayout
+
                 if (binding.studentemail.hasFocus()) {
                     binding.til.error = getString(R.string.space_email)
                 } else if (binding.password.hasFocus()) {
@@ -307,6 +314,11 @@ class Login_Activity : AppCompatActivity() {
     }
 
 
+    private fun changeStatusBarColor() {
+        val window: Window = window
+        window.statusBarColor = ContextCompat.getColor(this, R.color.green)
+
+    }
 
     private fun areFieldsValid(): Boolean {
 

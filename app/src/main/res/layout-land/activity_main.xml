@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+
+        tools:context=".MainActivity">
+
+        <TextView
+            android:id="@+id/ss1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/college"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_40ssp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.397"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.498" />
+
+        <ImageView
+            android:id="@+id/si1"
+            android:layout_width="@dimen/_45sdp"
+            android:layout_height="@dimen/_45sdp"
+            android:layout_marginTop="152dp"
+            android:src="@drawable/gra"
+            app:layout_constraintEnd_toEndOf="@+id/ss2"
+            app:layout_constraintHorizontal_bias="0.472"
+            app:layout_constraintStart_toStartOf="@+id/ss1"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/ss2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:layout_marginEnd="168dp"
+            android:text="@string/connect"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_40ssp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.912"
+            app:layout_constraintStart_toStartOf="@+id/ss1"
+            app:layout_constraintTop_toTopOf="@+id/ss1" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

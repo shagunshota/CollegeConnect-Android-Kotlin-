@@ -57,7 +57,7 @@ class supad_profile : AppCompatActivity() {
     }
     private fun changeStatusBarColor() {
         val window: Window = window
-        window.statusBarColor = ContextCompat.getColor(this, R.color.lightblue)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.green)
 
     }
 }

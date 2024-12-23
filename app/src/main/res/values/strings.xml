@@ -131,6 +131,7 @@
     <string name="request_send">Your request is send for registration</string>
     <string name="superad_name" tools:ignore="MissingTranslation">superadmin@gmail.com</string>
     <string name="superad_Pass" tools:ignore="MissingTranslation">Superad@1234</string>
+    <string name="retype_pass">Please enter password again</string>
 
 
     <!--    bottom nav bar-->
@@ -257,6 +258,8 @@
     <string name="pdf">pdf</string>
     <string name="add_teacher">Add Teacher</string>
     <string name="add_student">Add Student</string>
+    <string name="number_digits">Number contain 10 digits. </string>
+    <string name="back">Go Back</string>
 
 
 </resources>

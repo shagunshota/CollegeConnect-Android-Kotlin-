@@ -16,10 +16,10 @@
         android:id="@+id/teachertoolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
-        android:background="@color/lightblue"
+        android:background="@color/lightgreen"
         app:title="@string/update_data"
         app:navigationIcon="@drawable/back"
-        app:titleTextColor="@color/white"
+        app:titleTextColor="@color/green"
         tools:ignore="MissingConstraints" />
 
     <ScrollView
@@ -65,7 +65,7 @@
                         android:fontFamily="sans-serif-light"
                         android:gravity="center"
                         android:padding="@dimen/_6sdp"
-                        android:textColor="@color/lightblue"
+                        android:textColor="@color/green"
                         android:text="@string/update_profile"
                         android:textSize="@dimen/_30sdp"
                         android:textStyle="bold"
@@ -254,7 +254,7 @@
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="@dimen/_60sdp"
                 android:shadowColor="@color/black"
-                android:backgroundTint="@color/lightblue"
+                android:backgroundTint="@color/green"
                 android:textColor="@color/white"
                 android:shadowDx="3"
                 android:shadowDy="3"

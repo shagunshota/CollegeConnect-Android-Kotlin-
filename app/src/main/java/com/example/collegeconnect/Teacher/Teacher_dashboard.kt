@@ -40,14 +40,9 @@ class Teacher_dashboard : AppCompatActivity() {
         setContentView(R.layout.activity_teacher_dashboard)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_teacher_dashboard)
         auth = FirebaseAuth.getInstance()
-        changeStatusBarColor()
-
-
-
         setupToolbarMenu()
-
         auth = FirebaseAuth.getInstance()
-
+        changeStatusBarColor()
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
@@ -56,7 +51,7 @@ class Teacher_dashboard : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container,teacher_home())
+                .replace(R.id.fragment_container_teacher,teacher_home())
                 .commit()
         }
 
@@ -65,12 +60,14 @@ class Teacher_dashboard : AppCompatActivity() {
             when (item.itemId) {
                 R.id.teacher_home -> {
                     loadFragment(teacher_home())
-                    toolbar.title = getString(R.string.cc)
+                    toolbar.title = "College Connect "
+                    toolbar.setTitleTextColor(getColor(R.color.green))
                     true
                 }
                 R.id.teacher_student-> {
                     loadFragment(teacher_student())
                     toolbar.title = getString(R.string.student)
+                    toolbar.setTitleTextColor(getColor(R.color.green))
                     true
                 }
 
@@ -117,17 +114,18 @@ class Teacher_dashboard : AppCompatActivity() {
 
         popupMenu.show()
     }
+    private fun changeStatusBarColor() {
+        val window: Window = window
+        window.statusBarColor = ContextCompat.getColor(this, R.color.blue)
+
+    }
     private fun loadFragment(fragment: androidx.fragment.app.Fragment) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment)
+            .replace(R.id.fragment_container_teacher, fragment)
             .commit()
     }
 
-    private fun changeStatusBarColor() {
-        val window: Window = window
-        window.statusBarColor = ContextCompat.getColor(this, R.color.lightblue)
-
-    }
+   }
 
 
-    }
+

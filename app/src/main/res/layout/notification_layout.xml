@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="@dimen/_4ssp"
-            android:background="@drawable/green_background"
+
             android:orientation="vertical">
 
 

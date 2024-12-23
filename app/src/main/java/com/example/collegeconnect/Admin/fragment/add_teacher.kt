@@ -25,6 +25,7 @@ import com.example.collegeconnect.databinding.FragmentAddTeacherBinding
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import java.util.UUID
 import javax.crypto.Cipher
 import javax.crypto.SecretKey
 import javax.crypto.spec.SecretKeySpec
@@ -286,13 +287,13 @@ class add_teacher : Fragment() {
 
 
     private fun registerTeacher(username: String, email: String, number: String, branch: String, subject: String, gender: String, experience: String, password: String) {
-
+        val userId = FirebaseDatabase.getInstance().reference.push().key ?: UUID.randomUUID().toString()
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
                     val uniqueId = generateUniqueId()
-                    val database = FirebaseDatabase.getInstance().getReference("Teacher").child(uniqueId)
-                    val user = Teacher(username, email, number, branch, subject, gender, experience, password, uniqueId)
+                    val database = FirebaseDatabase.getInstance().getReference("Teacher").child(userId)
+                    val user = Teacher(username, email, number, branch, subject, gender, experience, password, uniqueId,userId)
 
                     database.setValue(user).addOnCompleteListener { dbTask ->
                         if (dbTask.isSuccessful) {
@@ -316,6 +317,42 @@ class add_teacher : Fragment() {
             }
 
     }
+
+//    private fun registerTeacher(username: String, email: String, number: String, branch: String, subject: String, gender: String, experience: String, password: String) {
+//        // Create a unique ID using Firebase's push() method
+//        val uniqueId = FirebaseDatabase.getInstance().reference.push().key ?: UUID.randomUUID().toString()
+//
+//        // Create user with email and password via Firebase Authentication
+//        auth.createUserWithEmailAndPassword(email, password)
+//            .addOnCompleteListener(this) { task ->
+//                if (task.isSuccessful) {
+//                    // After user is created, create a reference to store teacher data in Firebase
+//                    val database = FirebaseDatabase.getInstance().getReference("Teacher").child(uniqueId)
+//
+//                    // Create a Teacher object with the provided data
+//                    val teacher = Teacher(username, email, number, branch, subject, gender, experience, password, uniqueId)
+//
+//                    // Save the teacher's data under the unique ID in the 'Teacher' node
+//                    database.setValue(teacher).addOnCompleteListener { dbTask ->
+//                        if (dbTask.isSuccessful) {
+//                            // If data is saved successfully, show success toast and redirect to login activity
+//                            Toast.makeText(this, getString(R.string.registration_success), Toast.LENGTH_SHORT).show()
+//
+//                            val intent = Intent(this, Login_Activity::class.java)
+//                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                            startActivity(intent)
+//                            finish()
+//                        } else {
+//                            // If there's an error saving user data, show an error toast
+//                            Toast.makeText(this, getString(R.string.error_saving_user_data), Toast.LENGTH_SHORT).show()
+//                        }
+//                    }
+//                } else {
+//                    // If registration fails, show an error toast with the exception message
+//                    Toast.makeText(this, "Registration failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//    }
 
     private fun openFragment(fragment: Fragment) {
 

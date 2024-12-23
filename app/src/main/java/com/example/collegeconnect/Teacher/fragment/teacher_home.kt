@@ -1,6 +1,5 @@
 package com.example.collegeconnect.Teacher.fragment
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
@@ -14,10 +13,10 @@ import android.widget.EditText
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import com.example.collegeconnect.Admin.fragment.add_Student
 import com.example.collegeconnect.Login.Login_Activity
+import com.example.collegeconnect.Models.Teacher
+import com.example.collegeconnect.Models.Users
 import com.example.collegeconnect.R
-import com.example.collegeconnect.Student.Student_Registration
 import com.example.collegeconnect.Teacher.teacher_profile
 import com.example.collegeconnect.Teacher.teacher_settings
 import com.example.collegeconnect.Teacher.teacher_upload
@@ -29,20 +28,14 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-
-
 class teacher_home : Fragment() {
-    private var _binding: FragmentTeacherHomeBinding?=null
+    private var _binding: FragmentTeacherHomeBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var auth: FirebaseAuth
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
     }
 
     override fun onCreateView(
@@ -50,32 +43,11 @@ class teacher_home : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_teacher_home, container, false)
-        countStudent()
 
         auth = FirebaseAuth.getInstance()
-        countNotifications()
-        countEvent()
+        countStudent()
 
-
-
-        binding.stuadd.setOnClickListener {
-            openFragment(add_tstudent())
-            val fragmentManager = requireActivity().supportFragmentManager
-            fragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, add_Student.newInstance())
-                .commit()
-        }
-        binding.attenadd.setOnClickListener {
-            attendancedialog()
-
-        }
-        binding.marksadd.setOnClickListener {
-            marksdialog()
-        }
-
-
-
-        binding.lifecycleOwner = viewLifecycleOwner
+        setupListeners()
 
         val userId = auth.currentUser?.uid
         if(userId!=null){
@@ -102,76 +74,104 @@ class teacher_home : Fragment() {
 
         }
 
-
         return binding.root
-
     }
-    private fun openFragment(fragment: Fragment) {
-        val fragmentTransaction = childFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.main, fragment)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
+    data class Users(
+        val username: String,
+        val email: String ,
+        val number: String ,
+        val branch : String,
+        val subject: String,
+        val gender: String,
+        val experience: String,
+        val password: String,
+        val uniqueId: String,
+        val userId: String
+    ) {
+        constructor() : this("","","","","","","", "","","")  // No-argument constructor
     }
 
+    private fun setupListeners() {
 
-    private fun marksdialog() {
-        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.marks_input, null)
-        val subject =dialogView.findViewById<EditText>(R.id.subtext)
-        val rollno = dialogView.findViewById<EditText>(R.id.rolltext)
-        val obtainmarks = dialogView.findViewById<EditText>(R.id.obtaimarks)
-        val totalmarks = dialogView.findViewById<EditText>(R.id.totalmarks)
-        val add = dialogView.findViewById<Button>(R.id.add)
+        binding.stuadd.setOnClickListener {
+           requireActivity().supportFragmentManager.beginTransaction()
+               .replace(R.id.fragment_container_teacher,addstudent_teacher())
+               .commit()
+        }
+        binding.attenadd.setOnClickListener {
+            attendancedialog()
+        }
+        binding.marksadd.setOnClickListener {
+            marksdialog()
+        }
+    }
 
-        val dialog = AlertDialog.Builder(requireContext())
-            .setView(dialogView)
-            .create()
-        add.setOnClickListener {
-            val subject = subject.text.toString()
-            val rollno = rollno.text.toString()
-            val obtainmarks = obtainmarks.text.toString()
-            val totalmarks = totalmarks.text.toString()
-            if ((subject.isNotEmpty())  && (rollno.isNotEmpty()) &&(obtainmarks.isNotEmpty()) &&(totalmarks.isNotEmpty())) {
-                addmarks(subject,totalmarks,rollno,obtainmarks)
-                dialog.dismiss()
-            } else {
-                Toast.makeText(requireContext(), "Please enter some data", Toast.LENGTH_SHORT).show()
+    private fun fetchUserData(userId: String) {
+        val database = FirebaseDatabase.getInstance().getReference("Teacher").child(userId)
+        database.get().addOnCompleteListener { task ->
+            if (isAdded) {
+                if (task.isSuccessful) {
+                    val user = task.result.getValue(Teacher::class.java)
+                    if (user != null) {
+                        binding.welcomeTextView.text = "Welcome, ${user.username}!"
+                        binding.subject.text = user.uniqueId
+                    } else {
+                        showToast("User not found in database")
+                    }
+                } else {
+                    showToast("Failed to load data")
+                }
             }
         }
-
-        dialog.show()
-
     }
-
-    private fun addmarks(subject: String, totalmarks: String, rollno: String, obtainmarks: String) {
+    private fun countStudent() {
         val database = FirebaseDatabase.getInstance()
-        val attendanceRef = database.getReference("Marks")
+        val tableRef = database.getReference("Student")
+        tableRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val count = snapshot.childrenCount
+                binding.nostu.text = count.toString() // Ensure `countTextView` is present in XML
+            }
 
-
-        val key = attendanceRef.push().key
-
-
-        val attendanceData = mapOf(
-            "subject" to subject,
-            "rollNumber" to rollno,
-            "obtainedmarks" to obtainmarks,
-            "totalmarks" to totalmarks
-        )
-
-        if (key != null) {
-            attendanceRef.child(key).setValue(attendanceData)
-                .addOnSuccessListener {
-                    Toast.makeText(requireContext(), "Attendance added successfully", Toast.LENGTH_SHORT).show()
-                }
-                .addOnFailureListener { e ->
-                    Toast.makeText(requireContext(), "Failed to add attendance: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
-        } else {
-            Toast.makeText(requireContext(), "Error generating key", Toast.LENGTH_SHORT).show()
-        }
-
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
+//    private fun getTeacherUsername(userId: String) {
+//        // Reference to the "Teacher" node in Firebase
+//        val database = FirebaseDatabase.getInstance().getReference("Teacher").child(userId)
+//
+//        // Retrieve the data for the teacher
+//        database.get().addOnCompleteListener { task ->
+//            if (task.isSuccessful) {
+//                // On success, get the teacher object
+//                val teacher = task.result?.getValue(Teacher::class.java)
+//
+//                // Check if teacher data is not null
+//                if (teacher != null) {
+//                    // Access the username (or any other field)
+//                    val username = teacher.username
+//                    Toast.makeText(requireContext(), "Username: $username", Toast.LENGTH_SHORT).show()
+//                } else {
+//                    Toast.makeText(requireContext(), "Teacher data not found", Toast.LENGTH_SHORT).show()
+//                }
+//            } else {
+//                // If there's an error retrieving the data
+//                Toast.makeText(requireContext(), "Error retrieving teacher data: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//    }
 
-
+    //    data class Tea(
+//        val username: String = "",
+//        val email: String = "",
+//        val subject : String =" ",
+//        val uniqueId : String,
+//        val userId: String
+//    ) {
+//        constructor() : this("", "","","","")
+//    }
     private fun attendancedialog() {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.attendence_input, null)
         val subject =dialogView.findViewById<EditText>(R.id.subtext)
@@ -202,133 +202,110 @@ class teacher_home : Fragment() {
 
     private fun addattendence(subject: String, attenlec: String, rollno: String, totallec: String) {
 
-            val database = FirebaseDatabase.getInstance()
-            val attendanceRef = database.getReference("Attendance")
+        val database = FirebaseDatabase.getInstance()
+        val attendanceRef = database.getReference("Attendance")
 
 
-            val key = attendanceRef.push().key
+        val key = attendanceRef.push().key
 
 
+        val attendanceData = mapOf(
+            "subject" to subject,
+            "rollNumber" to rollno,
+            "attendedLectures" to attenlec,
+            "totalLectures" to totallec
+        )
+
+        if (key != null) {
+            attendanceRef.child(key).setValue(attendanceData)
+                .addOnSuccessListener {
+                    Toast.makeText(requireContext(), "Attendance added successfully", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(requireContext(), "Failed to add attendance: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(requireContext(), "Error generating key", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun navigateToLogin() {
+        showToast("User not logged in")
+        val intent = Intent(requireContext(), Login_Activity::class.java)
+        startActivity(intent)
+    }
+
+    private fun showToast(message: String) {
+        if (isAdded) {
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun openFragment(fragment: Fragment) {
+        if (isAdded) {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container_teacher, fragment)
+                .addToBackStack(null)
+                .commit()
+        }
+    }
+
+    private fun marksdialog() {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.marks_input, null)
+        val subjectField = dialogView.findViewById<EditText>(R.id.subtext)
+        val rollnoField = dialogView.findViewById<EditText>(R.id.rolltext)
+        val obtainmarksField = dialogView.findViewById<EditText>(R.id.obtaimarks)
+        val totalmarksField = dialogView.findViewById<EditText>(R.id.totalmarks)
+        val addButton = dialogView.findViewById<Button>(R.id.add)
+
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
+
+        addButton.setOnClickListener {
+            val subject = subjectField.text.toString()
+            val rollno = rollnoField.text.toString()
+            val obtainmarks = obtainmarksField.text.toString()
+            val totalmarks = totalmarksField.text.toString()
+
+            if (subject.isNotEmpty() && rollno.isNotEmpty() && obtainmarks.isNotEmpty() && totalmarks.isNotEmpty()) {
+                addmarks(subject, totalmarks, rollno, obtainmarks)
+                dialog.dismiss()
+            } else {
+                showToast("Please enter some data")
+            }
+        }
+
+        dialog.show()
+    }
+
+    private fun addmarks(subject: String, totalmarks: String, rollno: String, obtainmarks: String) {
+        val database = FirebaseDatabase.getInstance()
+        val attendanceRef = database.getReference("Marks")
+
+        val key = attendanceRef.push().key
+        if (key != null) {
             val attendanceData = mapOf(
                 "subject" to subject,
                 "rollNumber" to rollno,
-                "attendedLectures" to attenlec,
-                "totalLectures" to totallec
+                "obtainedmarks" to obtainmarks,
+                "totalmarks" to totalmarks
             )
 
-            if (key != null) {
-                attendanceRef.child(key).setValue(attendanceData)
-                    .addOnSuccessListener {
-                        Toast.makeText(requireContext(), "Attendance added successfully", Toast.LENGTH_SHORT).show()
-                    }
-                    .addOnFailureListener { e ->
-                        Toast.makeText(requireContext(), "Failed to add attendance: ${e.message}", Toast.LENGTH_SHORT).show()
-                    }
-            } else {
-                Toast.makeText(requireContext(), "Error generating key", Toast.LENGTH_SHORT).show()
-            }
+            attendanceRef.child(key).setValue(attendanceData)
+                .addOnSuccessListener { showToast("Marks added successfully") }
+                .addOnFailureListener { e -> showToast("Failed to add marks: ${e.message}") }
+        } else {
+            showToast("Error generating key")
         }
-
-
-
-
-    private fun countNotifications() {
-        val database = FirebaseDatabase.getInstance()
-        val tableRef = database.getReference("Notification")
-        tableRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val count = snapshot.childrenCount
-                binding.nonoti.text = count.toString()
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
-    private fun countEvent() {
-        val database = FirebaseDatabase.getInstance()
-        val tableRef = database.getReference("Event")
-        tableRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val count = snapshot.childrenCount
-                binding.noeve.text = count.toString()
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_SHORT).show()
-            }
-        })
-
     }
 
-
-
-    private fun countStudent() {
-        val database = FirebaseDatabase.getInstance()
-        val tableRef = database.getReference("Student")
-        tableRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val count = snapshot.childrenCount
-                binding.nostu.text = count.toString()
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_SHORT).show()
-            }
-        })
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
-    data class Users(
-        val username: String = "",
-        val email: String = "",
-        val subject : String =" ",
-        val uniqueId : String
-    ) {
-        constructor() : this("", "","","")
-    }
-    private fun showDropdownMenu(anchor: android.view.View) {
-
-        val popupMenu = PopupMenu(requireContext(), anchor)
-        popupMenu.menuInflater.inflate(R.menu.options, popupMenu.menu)
-
-        popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
-            when (menuItem.itemId) {
-
-                R.id.profile -> {
-                    val intent = Intent(requireContext(),teacher_profile::class.java)
-                    startActivity(intent)
-
-                    true
-                }
-
-                R.id.settings -> {
-                    val intent = Intent(requireContext(), teacher_settings::class.java)
-                    startActivity(intent)
-                    true
-
-                }
-                R.id.update_Profile -> {
-                    val intent = Intent(requireContext(), teacher_upload::class.java)
-                    startActivity(intent)
-
-                    true
-                }
-
-                else -> false
-            }
-        }
-
-        popupMenu.show()
-    }
-
 
     companion object {
-
-        fun newInstance(param1: String, param2: String) =
-            teacher_home().apply {
-                arguments = Bundle().apply {
-
-                }
-            }
+        fun newInstance() = teacher_home()
     }
 }

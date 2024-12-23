@@ -1,16 +1,14 @@
-package com.example.collegeconnect.Teacher.fragment
+package com.example.collegeconnect.Admin.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import com.example.collegeconnect.R
-import com.example.collegeconnect.databinding.FragmentAddStudentBinding
 
-class add_tstudent : Fragment() {
-    private lateinit var binding : FragmentAddStudentBinding
+
+class add_notification : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,16 +21,15 @@ class add_tstudent : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-       binding = DataBindingUtil.inflate(inflater,R.layout.fragment_add_tstudent,container,false)
 
-        return binding.root
+        return inflater.inflate(R.layout.fragment_add_notification, container, false)
     }
 
     companion object {
 
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            add_tstudent().apply {
+        fun newInstance() =
+            add_notification().apply {
                 arguments = Bundle().apply {
 
                 }

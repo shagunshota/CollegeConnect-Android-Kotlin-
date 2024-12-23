@@ -15,11 +15,11 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
-        android:background="@color/lightblue"
+        android:background="@color/green"
         app:title="@string/settings"
         app:navigationIcon="@drawable/back"
         app:titleTextColor="@color/white"
-       />
+        tools:ignore="MissingConstraints" />
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout7"
         android:layout_width="match_parent"

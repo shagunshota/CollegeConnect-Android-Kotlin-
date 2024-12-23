@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         val slideanim2 = AnimationUtils.loadAnimation(this, R.anim.slide_top)
         binding.si1.startAnimation(slideanim2)
 
-        // Delay for splash screen effect
+
         Handler(Looper.getMainLooper()).postDelayed({
             val sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE)
             val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)

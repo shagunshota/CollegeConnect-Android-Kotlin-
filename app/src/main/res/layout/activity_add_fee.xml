@@ -20,7 +20,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_40sdp"
-            android:background="@color/lightblue"
+            android:background="@color/green"
             app:title="@string/add_fee"
             app:navigationIcon="@drawable/back"
             app:titleTextColor="@color/white" />
@@ -120,7 +120,7 @@
                 android:layout_height="@dimen/_40sdp"
                 android:layout_marginTop="@dimen/_40sdp"
                 android:shadowColor="@color/black"
-                android:backgroundTint="@color/lightblue"
+                android:backgroundTint="@color/green"
                 android:textColor="@color/white"
                 android:shadowDx="3"
                 android:shadowDy="3"
