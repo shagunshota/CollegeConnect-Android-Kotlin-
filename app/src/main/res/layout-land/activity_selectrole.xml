@@ -33,20 +33,21 @@
                 android:src="@drawable/gra"
                 app:layout_constraintBottom_toBottomOf="@+id/textView2"
                 app:layout_constraintEnd_toStartOf="@+id/textView2"
-                app:layout_constraintTop_toTopOf="@+id/textView2" />
+                app:layout_constraintTop_toTopOf="@+id/textView2"
+                app:layout_constraintVertical_bias="0.538" />
 
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:text="@string/cc"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_30ssp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.462"
+                app:layout_constraintHorizontal_bias="0.553"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,52 +57,53 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout9"
             android:layout_width="@dimen/_300sdp"
-            android:padding="@dimen/_5sdp"
-            android:layout_height="@dimen/_240sdp"
-            android:layout_marginStart="16dp"
+            android:layout_height="@dimen/_200sdp"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/lightgreen"
+            android:padding="@dimen/_10sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout4">
 
-                                    <androidx.cardview.widget.CardView
-                                        android:id="@+id/cardView"
-                                        android:layout_width="@dimen/_290sdp"
-                                        android:layout_height="@dimen/_220sdp"
-                                        android:layout_marginTop="@dimen/_5sdp"
-                                        app:cardCornerRadius="8dp"
-                                        app:cardElevation="4dp"
-                                        tools:ignore="MissingConstraints"
-                                        tools:layout_editor_absoluteX="19dp"
-                                        tools:layout_editor_absoluteY="6dp">
+                                                                        <androidx.cardview.widget.CardView
+                                                                            android:id="@+id/cardView"
+                                                                            android:layout_width="match_parent"
+                                                                            android:layout_height="match_parent"
+                                                                            app:cardCornerRadius="8dp"
+                                                                            app:cardElevation="@dimen/_20sdp"
+                                                                            tools:ignore="MissingConstraints"
+                                                                            tools:layout_editor_absoluteX="19dp"
+                                                                            tools:layout_editor_absoluteY="6dp">
 
-                                        <androidx.viewpager2.widget.ViewPager2
-                                            android:id="@+id/viewPager"
-                                            android:layout_width="@dimen/_300sdp"
-                                            android:layout_height="@dimen/_230sdp" />
+                                                                            <androidx.viewpager2.widget.ViewPager2
+                                                                                android:id="@+id/viewPager"
+                                                                                android:layout_width="match_parent"
+                                                                                android:layout_height="match_parent" />
 
-                                    </androidx.cardview.widget.CardView>
+                                                                        </androidx.cardview.widget.CardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
             android:id="@+id/admin"
-            android:layout_width="@dimen/_100sdp"
+            android:layout_width="@dimen/_150sdp"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginHorizontal="@dimen/_25sdp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/button_hollow"
             android:padding="@dimen/_8sdp"
             android:text="@string/admin"
             android:textColor="@color/green"
             android:textSize="@dimen/_15sdp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.679"
+            app:layout_constraintHorizontal_bias="0.562"
             app:layout_constraintStart_toEndOf="@+id/constraintLayout9"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout4" />
 
         <Button
             android:id="@+id/teacher"
-            android:layout_width="@dimen/_100sdp"
+            android:layout_width="@dimen/_150sdp"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginHorizontal="@dimen/_25sdp"
@@ -112,13 +114,13 @@
             android:textColor="@color/green"
             android:textSize="@dimen/_15sdp"
             app:layout_constraintEnd_toEndOf="@+id/admin"
-            app:layout_constraintHorizontal_bias="0.416"
+            app:layout_constraintHorizontal_bias="0.45"
             app:layout_constraintStart_toStartOf="@+id/admin"
             app:layout_constraintTop_toBottomOf="@+id/admin" />
 
         <Button
             android:id="@+id/student"
-            android:layout_width="@dimen/_100sdp"
+            android:layout_width="@dimen/_150sdp"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginHorizontal="@dimen/_25sdp"
@@ -137,14 +139,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginTop="40dp"
+            android:layout_marginEnd="16dp"
             android:text="@string/change_language"
             android:textColor="@color/black"
             android:textSize="@dimen/_13sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/student"
-            app:layout_constraintHorizontal_bias="0.123"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/student"
-            app:layout_constraintTop_toBottomOf="@+id/student" />
+            app:layout_constraintTop_toBottomOf="@+id/student"
+            app:layout_constraintVertical_bias="0.511" />
 
         <ImageView
 
@@ -154,10 +158,7 @@
             android:src="@drawable/language_change"
             app:layout_constraintBottom_toBottomOf="@+id/changelang"
             app:layout_constraintEnd_toStartOf="@+id/changelang"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/constraintLayout9"
-            app:layout_constraintTop_toTopOf="@+id/changelang"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="@+id/changelang" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

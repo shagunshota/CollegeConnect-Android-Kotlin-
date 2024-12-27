@@ -8,6 +8,7 @@
     <color name="grey">#A6A4A3</color>
     <color name="green">#EB2A6D2D</color>
     <color name="lightgreen">#EBE9F4E9</color>
+    <color name="toolbar">#E9F2D7</color>
     <color name="skyblue">#EB2A6D2D</color>
     <color name="purewhite">#FFFFFF</color>
 </resources>

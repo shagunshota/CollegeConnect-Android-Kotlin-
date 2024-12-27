@@ -90,7 +90,7 @@ class admin_profile : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val admin = task.result.getValue(Admins::class.java)
                     if (admin != null) {
-                        binding.name.text = "${admin.username}"
+                        binding.name?.text  = "${admin.username}"
 
                         binding.email.text="${admin.email}"
 

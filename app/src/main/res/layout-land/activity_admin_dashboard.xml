@@ -5,12 +5,11 @@
     <data>
 
     </data>
-
 <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Teacher.Teacher_dashboard">
+    tools:context=".Admin.Admin_dashboard">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,12 +18,13 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-           android:background="@color/white"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@color/white"
             android:elevation="4dp"
+            app:titleTextColor="@color/toolbar"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:titleTextColor="@color/green"
             android:title="Home" >
+
             <ImageView
                 android:id="@+id/menu"
                 android:layout_width="wrap_content"
@@ -36,7 +36,7 @@
 
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/fragment_container_teacher"
+            android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
@@ -45,9 +45,10 @@
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_65sdp"
-            android:background="@color/white"
-            app:menu="@menu/bottomnav_teacher" />
+            android:layout_height="@dimen/_70sdp"
+            android:background="@color/purewhite"
+            app:menu="@menu/bottomnav_admin" />
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

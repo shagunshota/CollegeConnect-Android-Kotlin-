@@ -4,9 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <!-- Add your ViewModel or binding variables here if needed -->
-    </data>
 
+    </data>
 
     <FrameLayout
         android:id="@+id/main"
@@ -18,23 +17,22 @@
             android:layout_height="match_parent">
 
 
+            <TextView
+                android:id="@+id/welcomeTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_2ssp"
+                android:layout_marginStart="@dimen/_20sdp"
+                android:text="User (Teacher)"
+                android:textSize="@dimen/_25ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteY="0dp" />
 
-
-        <TextView
-            android:id="@+id/welcomeTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:padding="@dimen/_8ssp"
-            android:text="User (Teacher)"
-            android:textSize="@dimen/_35ssp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:ignore="MissingConstraints" />
-
-
-        <TextView
+            <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,6 +53,7 @@
             app:layout_constraintTop_toBottomOf="@+id/welcomeTextView"
             app:layout_constraintStart_toEndOf="@+id/textView" />
 
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -63,34 +62,54 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
 
-            <LinearLayout
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/_5sdp">
+                android:padding="@dimen/_25sdp"
 
+                android:layout_height="wrap_content">
 
-                <androidx.cardview.widget.CardView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:padding="@dimen/_5sdp"
-                    app:cardCornerRadius="@dimen/_7sdp"
-                    app:cardElevation="@dimen/_5sdp">
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    tools:ignore="MissingConstraints">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    tools:ignore="MissingConstraints">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="@dimen/_4sdp"
+                    app:cardElevation="@dimen/_2sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.026"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="@dimen/_250sdp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/green_background"
-                        android:padding="@dimen/_5sdp">
+                        android:padding="@dimen/_2sdp">
 
                         <TextView
                             android:id="@+id/text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
+                            android:layout_marginTop="4dp"
                             android:text="@string/student"
-                            android:textSize="@dimen/_25sdp"
+                            android:textSize="@dimen/_20sdp"
                             android:textStyle="bold"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -101,40 +120,48 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:text="@string/student_line"
-                            android:textSize="@dimen/_11sdp"
+                            android:textSize="@dimen/_10sdp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/text" />
 
                         <ImageView
                             android:id="@+id/stuadd"
-                            android:layout_width="@dimen/_60sdp"
-                            android:layout_height="@dimen/_60sdp"
-                            android:layout_marginEnd="8dp"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
+                            android:layout_marginStart="136dp"
                             android:src="@drawable/addblack"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent" />
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/text"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="1.0" />
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
+
                 <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
+                    android:id="@+id/cardView5"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_25sdp"
+                    android:layout_marginStart="52dp"
                     app:cardCornerRadius="@dimen/_7sdp"
-                    app:cardElevation="@dimen/_5sdp">
+                    app:cardElevation="@dimen/_2sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cardView7"
+                    app:layout_constraintTop_toTopOf="@+id/cardView7"
+                    app:layout_constraintVertical_bias="0.0">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="@dimen/_250sdp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/green_background"
-                        android:padding="@dimen/_5sdp">
-
+                        android:padding="@dimen/_2sdp">
 
                         <TextView
                             android:id="@+id/attentext"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/attendance"
-                            android:textSize="@dimen/_25sdp"
+                            android:textSize="@dimen/_20sdp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -146,7 +173,6 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-
                             android:text="@string/attendance_line"
                             android:textSize="@dimen/_11sdp"
                             app:layout_constraintEnd_toStartOf="@+id/attenadd"
@@ -156,9 +182,8 @@
 
                         <ImageView
                             android:id="@+id/attenadd"
-                            android:layout_width="@dimen/_60sdp"
-                            android:layout_height="@dimen/_60sdp"
-
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
                             android:src="@drawable/addblack"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -168,26 +193,38 @@
                             app:layout_constraintVertical_bias="0.444" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:gravity="center_horizontal"
+                    android:layout_height="wrap_content">
+
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
+                    android:id="@+id/cardView8"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_25sdp"
-                    app:cardCornerRadius="@dimen/_7sdp"
-                    app:cardElevation="@dimen/_5sdp">
+                    android:layout_marginTop="@dimen/_16sdp"
+                    app:cardCornerRadius="@dimen/_4sdp"
+                    app:cardElevation="@dimen/_2sdp"
+                    app:layout_constraintEnd_toEndOf="@+id/cardView7"
+                    app:layout_constraintHorizontal_bias="0.411"
+                    app:layout_constraintStart_toStartOf="@+id/cardView7"
+                    app:layout_constraintTop_toBottomOf="@+id/cardView7">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="@dimen/_250sdp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/green_background"
-                        android:padding="@dimen/_5sdp">
+                        android:padding="@dimen/_2sdp">
 
                         <TextView
                             android:id="@+id/markstext"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/marks"
-                            android:textSize="@dimen/_25sdp"
+                            android:textSize="@dimen/_20sdp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -200,7 +237,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/marks_line"
-                            android:textSize="@dimen/_11sdp"
+                            android:textSize="@dimen/_10sdp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/marksadd"
                             app:layout_constraintHorizontal_bias="0.0"
@@ -210,8 +247,8 @@
 
                         <ImageView
                             android:id="@+id/marksadd"
-                            android:layout_width="@dimen/_60sdp"
-                            android:layout_height="@dimen/_60sdp"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
                             android:layout_marginEnd="8dp"
                             android:src="@drawable/addblack"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -221,25 +258,36 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
+
                 <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
+                    android:id="@+id/cardView9"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_25sdp"
-                    app:cardCornerRadius="@dimen/_7sdp"
-                    app:cardElevation="@dimen/_5sdp">
+                    android:padding="@dimen/_2sdp"
+                    app:cardCornerRadius="@dimen/_4sdp"
+                    app:cardElevation="@dimen/_2sdp"
+                    android:layout_marginStart="52dp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    app:layout_constraintBottom_toBottomOf="@+id/cardView8"
+                    app:layout_constraintEnd_toEndOf="@+id/cardView5"
+                    app:layout_constraintHorizontal_bias="0.483"
+                    app:layout_constraintStart_toStartOf="@+id/cardView5"
+                    app:layout_constraintTop_toTopOf="@+id/cardView8"
+                    app:layout_constraintVertical_bias="0.414">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="@dimen/_250sdp"
                         android:layout_height="wrap_content"
+
                         android:background="@drawable/green_background"
-                        android:padding="@dimen/_5sdp">
+                        android:padding="@dimen/_2sdp">
 
                         <TextView
                             android:id="@+id/totalstu"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/students"
-                            android:textSize="@dimen/_25sdp"
+                            android:textSize="@dimen/_20sdp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -252,47 +300,61 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/totalstudents"
-                            android:textSize="@dimen/_11sdp"
+                            android:textSize="@dimen/_10sdp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/nostu"
                             app:layout_constraintHorizontal_bias="0.0"
                             app:layout_constraintStart_toStartOf="@+id/totalstu"
-                            app:layout_constraintTop_toBottomOf="@+id/totalstu" />
+                            app:layout_constraintTop_toBottomOf="@+id/totalstu"
+                            app:layout_constraintVertical_bias="0.0" />
 
                         <TextView
                             android:id="@+id/nostu"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
                             android:text="1"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_40sdp"
+                            android:textSize="@dimen/_25sdp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintHorizontal_bias="0.86"
-                            app:layout_constraintStart_toEndOf="@+id/totalstu" />
+                            app:layout_constraintHorizontal_bias="0.931"
+                            app:layout_constraintStart_toEndOf="@+id/totalstu"
+                            app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
+                </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:gravity="center_horizontal"
+                        android:layout_height="wrap_content">
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
+                    android:id="@+id/cardView10"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_25sdp"
                     app:cardCornerRadius="@dimen/_7sdp"
-                    app:cardElevation="@dimen/_5sdp">
+                    app:cardElevation="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_25sdp"
+                    app:layout_constraintEnd_toEndOf="@+id/cardView8"
+                    app:layout_constraintHorizontal_bias="0.23"
+                    app:layout_constraintStart_toStartOf="@+id/cardView8"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteY="151dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="@dimen/_250sdp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/green_background"
-                        android:padding="@dimen/_5sdp">
+                        android:padding="@dimen/_2sdp">
 
                         <TextView
                             android:id="@+id/totalnoti"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/notification"
-                            android:textSize="@dimen/_25sdp"
+                            android:textSize="@dimen/_20sdp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -305,7 +367,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/student_line"
-                            android:textSize="@dimen/_11sdp"
+                            android:textSize="@dimen/_10sdp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/nonoti"
                             app:layout_constraintHorizontal_bias="0.0"
@@ -320,7 +382,7 @@
                             android:layout_marginEnd="8dp"
                             android:text="3"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_40sdp"
+                            android:textSize="@dimen/_30sdp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.887"
@@ -330,15 +392,19 @@
 
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_25sdp"
                     android:layout_marginBottom="@dimen/_5sdp"
                     app:cardCornerRadius="@dimen/_7sdp"
-                    app:cardElevation="@dimen/_5sdp">
+                    app:cardElevation="@dimen/_5sdp"
+                    android:layout_marginStart="52dp"
+                    app:layout_constraintEnd_toEndOf="@+id/cardView9"
+                    app:layout_constraintStart_toStartOf="@+id/cardView9"
+                    tools:layout_editor_absoluteY="159dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="@dimen/_250sdp"
                         android:layout_height="wrap_content"
                         android:background="@drawable/green_background"
                         android:padding="@dimen/_5sdp">
@@ -348,20 +414,20 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/event"
-                            android:textSize="@dimen/_25sdp"
+                            android:textSize="@dimen/_20sdp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.036"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_bias="0.138" />
+                            app:layout_constraintVertical_bias="0.0" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/student_line"
-                            android:textSize="@dimen/_11sdp"
+                            android:textSize="@dimen/_10sdp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/noeve"
                             app:layout_constraintHorizontal_bias="0.0"
@@ -376,18 +442,17 @@
                             android:layout_marginEnd="8dp"
                             android:text="3"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_40sdp"
+                            android:textSize="@dimen/_30sdp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.929"
                             app:layout_constraintStart_toEndOf="@+id/totaleve" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+                </LinearLayout>
 
-
-
-
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>

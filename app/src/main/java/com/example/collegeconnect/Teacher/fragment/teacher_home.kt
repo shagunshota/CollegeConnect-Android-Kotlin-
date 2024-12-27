@@ -101,7 +101,7 @@ class teacher_home : Fragment() {
         binding.attenadd.setOnClickListener {
             attendancedialog()
         }
-        binding.marksadd.setOnClickListener {
+        binding.marksadd?.setOnClickListener {
             marksdialog()
         }
     }
@@ -113,7 +113,7 @@ class teacher_home : Fragment() {
                 if (task.isSuccessful) {
                     val user = task.result.getValue(Teacher::class.java)
                     if (user != null) {
-                        binding.welcomeTextView.text = "Welcome, ${user.username}!"
+                        binding.welcomeTextView?.text = "Welcome, ${user.username}!"
                         binding.subject.text = user.uniqueId
                     } else {
                         showToast("User not found in database")
@@ -130,7 +130,7 @@ class teacher_home : Fragment() {
         tableRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val count = snapshot.childrenCount
-                binding.nostu.text = count.toString() // Ensure `countTextView` is present in XML
+                binding.nostu?.text = count.toString()
             }
 
             override fun onCancelled(error: DatabaseError) {

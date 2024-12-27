@@ -21,6 +21,8 @@
         app:titleTextColor="@color/white"
         tools:ignore="MissingConstraints" />
 
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout8"
         android:layout_width="match_parent"
@@ -78,13 +80,13 @@
         android:id="@+id/logoutButton"
         android:layout_width="@dimen/_150sdp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="408dp"
+        android:layout_marginTop="18dp"
         android:text="Logout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout8"
-        app:layout_constraintVertical_bias="0.262" />
+        app:layout_constraintVertical_bias="0.237" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
