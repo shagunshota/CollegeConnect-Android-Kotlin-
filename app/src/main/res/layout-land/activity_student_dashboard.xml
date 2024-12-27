@@ -41,7 +41,7 @@
         app:labelVisibilityMode="labeled"
         app:circularflow_radiusInDP="@string/home"
         app:itemTextColor="@color/black"
-        android:layout_height="@dimen/_50sdp"
+        android:layout_height="@dimen/_55sdp"
         app:itemIconSize="@dimen/_20sdp"
         app:itemIconTint="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"

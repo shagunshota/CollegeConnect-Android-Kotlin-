@@ -80,12 +80,12 @@ class teacher_profile : AppCompatActivity() {
                     if(user!=null){
                         binding.name.text="${user.username}"
                         binding.subject.text="${user.subject}"
-                        binding.email.text="${user.email}"
-                        binding.uniqueid.text="${user.uniqueId}"
-                        binding.number.text="${user.number}"
+                        binding.email?.text="${user.email}"
+                        binding.uniqueid?.text="${user.uniqueId}"
+                        binding.number?.text="${user.number}"
                         binding.ebranch.text="${user.branch}"
-                        binding.esubject.text="${user.subject}"
-                        binding.gender.text="${user.gender}"
+                        binding.esubject?.text="${user.subject}"
+                        binding.gender?.text="${user.gender}"
                         binding.experience.text="${user.experience}"
 
 
