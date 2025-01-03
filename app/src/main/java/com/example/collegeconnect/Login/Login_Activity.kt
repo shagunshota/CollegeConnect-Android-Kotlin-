@@ -35,7 +35,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 
-class Login_Activity : AppCompatActivity() {
+class      Login_Activity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var firestore: FirebaseFirestore
     private lateinit var database: DatabaseReference
@@ -60,6 +60,8 @@ class Login_Activity : AppCompatActivity() {
         setupUI()
         performloginaction()
         checkNetworkStatus()
+
+
         changeStatusBarColor()
 
 
